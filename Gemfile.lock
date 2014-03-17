@@ -54,6 +54,10 @@ GEM
       factory_girl (~> 4.4.0)
       railties (>= 3.0.0)
     hike (1.2.3)
+    hirb (0.7.1)
+    hirb-unicode (0.0.5)
+      hirb (~> 0.5)
+      unicode-display_width (~> 0.1.1)
     i18n (0.6.9)
     mail (2.5.4)
       mime-types (~> 1.16)
@@ -124,6 +128,7 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.38)
+    unicode-display_width (0.1.1)
 
 PLATFORMS
   ruby
@@ -131,6 +136,7 @@ PLATFORMS
 DEPENDENCIES
   factory_girl_rails
   feeder!
+  hirb-unicode
   pry-rails
   rspec-rails
   sqlite3
