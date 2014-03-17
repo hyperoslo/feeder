@@ -4,6 +4,7 @@ PATH
     feeder (0.1.0)
       coffee-rails (~> 4.0.0)
       rails (~> 4.0)
+      rails-observers
       sass-rails (~> 4.0.0)
 
 GEM
@@ -79,6 +80,8 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 4.0.3)
       sprockets-rails (~> 2.0.0)
+    rails-observers (0.1.2)
+      activemodel (~> 4.0)
     railties (4.0.3)
       actionpack (= 4.0.3)
       activesupport (= 4.0.3)
