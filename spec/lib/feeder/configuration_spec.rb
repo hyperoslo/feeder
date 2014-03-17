@@ -5,6 +5,10 @@ describe Feeder::Configuration do
     expect(subject.observables).to eq [ ]
   end
 
+  it "sets a default sort order upon initialization" do
+    expect(subject.sort_order).to eq({ created_at: :desc })
+  end
+
   describe "#add_observable" do
     it "adds an observable to @observables" do
       subject.add_observable "SomeObservable"
