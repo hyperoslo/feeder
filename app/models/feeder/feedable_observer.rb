@@ -1,6 +1,6 @@
 module Feeder
   class FeedableObserver < ActiveRecord::Observer
-    observe [ 'Message' ]
+    observe Feeder.config.observables
 
     def after_create(feedable)
       Feeder::Item.create!(
