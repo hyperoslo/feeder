@@ -11,6 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20140317152137) do
+
+  create_table "feeder_items", force: true do |t|
+    t.datetime "published_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "feedable_id"
+    t.string   "feedable_type"
+  end
+
+  add_index "feeder_items", ["feedable_id", "feedable_type"], name: "index_feeder_items_on_feedable_id_and_feedable_type"
 
 end
