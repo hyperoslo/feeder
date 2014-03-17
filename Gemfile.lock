@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    feeder (0.1.0)
+    feeder (0.2.0)
       rails (~> 4.0)
       rails-observers
 
