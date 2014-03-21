@@ -35,7 +35,7 @@ mount Feeder::Engine => "/feed"
 ```
 
 You will now be able to display a feed on _/feed_ in your application. In order
-for Mingle to display anything in your feed, however, you will need to make
+for Feeder to display anything in your feed, however, you will need to make
 views per item type in the feed. Feeder looks up these views in
 _app/views/feeder/types_ by default, and then checks for a partial with the same
 name as your item type. As an example, if you have a `Message` model that you
