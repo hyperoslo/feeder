@@ -1,3 +1,3 @@
-<div class="feed_item <%= item.type %>">
+<div class="feed_item <%= item.type.parameterize %>">
   <%= render "feeder/types/#{item.type}", feedable: item.feedable %>
 </div>
