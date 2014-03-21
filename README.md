@@ -1,4 +1,4 @@
-# Mingle
+# Feeder
 
 Feeder gives you a mountable engine that provides a route to a feed page in your
 Ruby on Rails application.
