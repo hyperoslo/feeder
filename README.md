@@ -48,7 +48,7 @@ observe, which is done through an initializer, like this:
 
 ```ruby
 Feeder.configure do |config|
-  config.add_observer "Message"
+  config.add_observable "Message"
 end
 ```
 
