@@ -6,7 +6,7 @@ module Feeder
 
     describe "GET 'index'" do
       let!(:items) do
-        10.times.map do
+        50.times.map do
           message = Message.create header: 'Header', body: 'Body'
           item    = Item.create feedable: message, published_at: Time.zone.now
         end.sort_by(&:published_at).reverse
@@ -17,10 +17,24 @@ module Feeder
         expect(response).to be_successful
       end
 
+      context 'without a limit' do
+        it 'loads the default amount of items' do
+          get :index
+          expect(assigns(:items).count).to eq Feeder.config.default_limit
+        end
+      end
+
+      context 'with a limit' do
+        it 'loads the given amount of items' do
+          get :index, limit: 5
+          expect(assigns(:items).count).to eq 5
+        end
+      end
+
       context 'without stickies' do
         it 'fetches feed items ordered by publiction date, descending' do
           get :index
-          expect(assigns(:items)).to eq items
+          expect(assigns(:items)).to eq items.take(Feeder.config.default_limit)
         end
       end
 
