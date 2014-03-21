@@ -1,4 +1,4 @@
-# Mingle
+# Feeder
 
 Feeder gives you a mountable engine that provides a route to a feed page in your
 Ruby on Rails application.
@@ -48,7 +48,7 @@ observe, which is done through an initializer, like this:
 
 ```ruby
 Feeder.configure do |config|
-  config.add_observer "Message"
+  config.add_observable "Message"
 end
 ```
 
