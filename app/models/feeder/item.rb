@@ -1,5 +1,5 @@
 module Feeder
-  class Item < ActiveRecord::Base
+  class Item < ::ActiveRecord::Base
     belongs_to :feedable, polymorphic: true
 
     def type
