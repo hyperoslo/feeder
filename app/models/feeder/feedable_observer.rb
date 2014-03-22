@@ -15,6 +15,8 @@ module Feeder
     end
 
     def after_save(feedable)
+      feedable.reload
+
       item = feedable.feeder_item
 
       item.sticky = feedable.sticky
