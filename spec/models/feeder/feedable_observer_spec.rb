@@ -18,8 +18,7 @@ describe Feeder::FeedableObserver do
       before do
         subject.after_create message
 
-        message.reload
-        message.sticky = false
+        message.update sticky: false
 
         subject.after_save message
       end

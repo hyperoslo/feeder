@@ -3,7 +3,7 @@ module Feeder
     observe Feeder.config.observables
 
     def after_create(feedable)
-      Feeder::Item.create! do |item|
+      feedable.create_feeder_item! do |item|
         item.feedable     = feedable
         item.created_at   = feedable.created_at
         item.published_at = Time.zone.now
@@ -15,8 +15,6 @@ module Feeder
     end
 
     def after_save(feedable)
-      feedable.reload
-
       item = feedable.feeder_item
 
       item.sticky = feedable.sticky

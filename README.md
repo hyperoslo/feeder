@@ -52,26 +52,20 @@ Feeder.configure do |config|
 end
 ```
 
-You can observe any kind of model you wish. If you're lacking stuff to feed,
-check out the awesome [Mingle] gem.
+... and declare that your `Message` model is feedable:
+
+```ruby
+class Message < ActiveRecord::Base
+  feedable
+end
+```
 
 [Mingle]: https://github.com/hyperoslo/mingle
 
 ### Stickies
 
 You can "sticky" messages in your feed so they're pinned at the top regardless of when
-they were created. Just declare your class `feedable` and set the `sticky` attribute and
-Feeder will take care of the rest.
-
-```ruby
-# app/models/message.rb
-class Message < ActiveRecord::Base
-  feedable
-end
-
-# ...
-message = Message.create text: 'Welcome!', sticky: true
-```
+they were created. Just set the `sticky` attribute and Feeder will take care of the rest.
 
 ## Contributing
 
