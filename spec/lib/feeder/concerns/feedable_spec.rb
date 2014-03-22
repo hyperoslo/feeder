@@ -1,13 +1,7 @@
 require 'spec_helper'
 
 describe Feeder::Concerns::Feedable do
-  class Model
-    extend Feeder::ActiveRecord::Extensions
-
-    feedable
-  end
-
-  subject { Model.new }
+  subject { Message.new }
 
   it 'responds to sticky' do
     expect(subject).to respond_to :sticky
@@ -17,11 +11,27 @@ describe Feeder::Concerns::Feedable do
     expect(subject).to respond_to :sticky=
   end
 
-  it 'maintains state' do
-    subject.sticky = true
-    expect(subject.sticky).to eq true
+  context 'with a feeder item' do
+    before do
+      expect(subject).to receive(:feeder_item).and_return(double sticky: true).at_least(1).times
+    end
 
-    subject.sticky = false
-    expect(subject.sticky).to eq false
+    it 'delegates sticky to it' do
+      expect(subject.sticky).to eq true
+    end
+  end
+
+  context 'without a feeder item' do
+    before do
+      expect(subject).to receive(:feeder_item).and_return(nil).at_least(1).times
+    end
+
+    before do
+      subject.sticky = true
+    end
+
+    it 'mainstains state internally' do
+      expect(subject.sticky).to eq true
+    end
   end
 end

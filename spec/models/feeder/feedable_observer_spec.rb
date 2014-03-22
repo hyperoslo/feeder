@@ -1,17 +1,36 @@
 require 'spec_helper'
 
 describe Feeder::FeedableObserver do
-  describe '.after_create' do
-    subject { described_class.instance }
+  subject { described_class.instance }
 
-    let(:message) { create :message }
+  let(:message) { create :message }
 
-    around do |example|
-      Timecop.freeze Time.now do
-        example.run
+  around do |example|
+    Timecop.freeze Time.now do
+      example.run
+    end
+  end
+
+  describe '.after_save' do
+    context 'with a message that is no longer sticky' do
+      let(:message) { create :message, sticky: true }
+
+      before do
+        subject.after_create message
+
+        message.reload
+        message.sticky = false
+
+        subject.after_save message
+      end
+
+      it 'should update the feeder item to no longer be sticky' do
+        expect(message.feeder_item.sticky).to eq false
       end
     end
+  end
 
+  describe '.after_create' do
     before do
       subject.after_create message
     end

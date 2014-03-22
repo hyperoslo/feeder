@@ -13,5 +13,12 @@ module Feeder
         end
       end
     end
+
+    def after_save(feedable)
+      item = feedable.feeder_item
+
+      item.sticky = feedable.sticky
+      item.save!
+    end
   end
 end
