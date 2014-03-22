@@ -4,7 +4,7 @@ module Feeder::Concerns::Feedable
   included do
     attr_accessor :sticky
 
-    has_one :feeder_item, as: :feedable, class_name: 'Feeder::Item'
+    has_one :feeder_item, as: :feedable, class_name: 'Feeder::Item', dependent: :destroy
 
     def sticky
       if feeder_item
