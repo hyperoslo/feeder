@@ -3,7 +3,7 @@ require_dependency "feeder/application_controller"
 module Feeder
   class FeedsController < ApplicationController
     def index
-      @items = Item.order(sticky: :desc).order(Feeder.config.sort_order)
+      @items = Item.order(sticky: :asc).order(Feeder.config.sort_order)
 
       if params[:limit]
         @items = @items.limit params[:limit]
