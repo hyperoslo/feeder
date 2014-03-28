@@ -62,6 +62,15 @@ end
 
 [Mingle]: https://github.com/hyperoslo/mingle
 
+### Configuration
+
+```ruby
+Feeder.configure do |config|
+  # A list of scopes that will be applied to the feed items in the controller.
+  config.scopes << proc { limit 5 }
+end
+```
+
 ### Stickies
 
 You can "sticky" messages in your feed so they're pinned at the top regardless of when
