@@ -9,9 +9,8 @@ module Feeder
         @items = @items.instance_eval &scope
       end
 
-      if params[:limit]
-        @items = @items.limit params[:limit]
-      end
+      @items = @items.page(params[:page] || 1)
+      @items = @items.per(params[:limit] || 25)
     end
   end
 end

@@ -5,8 +5,7 @@ module Feeder
 
     def initialize
       @scopes = [
-        proc { order created_at: :desc },
-        proc { limit 25 }
+        proc { order created_at: :desc }
       ]
 
       @observables   = []
