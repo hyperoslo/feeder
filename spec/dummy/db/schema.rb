@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140321085409) do
+ActiveRecord::Schema.define(version: 20140401131911) do
 
   create_table "feeder_items", force: true do |t|
     t.datetime "published_at"
@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 20140321085409) do
     t.datetime "updated_at"
     t.integer  "feedable_id"
     t.string   "feedable_type"
-    t.boolean  "sticky",        default: false
+    t.boolean  "sticky",        default: false, null: false
   end
 
   add_index "feeder_items", ["feedable_id", "feedable_type"], name: "index_feeder_items_on_feedable_id_and_feedable_type"
