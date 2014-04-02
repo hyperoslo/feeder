@@ -26,12 +26,8 @@ describe Feeder::Concerns::Feedable do
       expect(subject).to receive(:feeder_item).and_return(nil).at_least(1).times
     end
 
-    before do
-      subject.sticky = true
-    end
-
     it 'mainstains state internally' do
-      expect(subject.sticky).to eq true
+      expect(subject.sticky).to eq false
     end
   end
 end

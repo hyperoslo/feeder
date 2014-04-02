@@ -10,7 +10,7 @@ module Feeder::Concerns::Feedable
       if feeder_item
         feeder_item.sticky
       else
-        @sticky
+        !!@sticky
       end
     end
 
