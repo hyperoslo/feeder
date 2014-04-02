@@ -6,7 +6,7 @@ describe Feeder::Configuration do
   end
 
   it "sets default scopes order upon initialization" do
-    expect(subject.scopes.count).to eq 2
+    expect(subject.scopes.count).to eq 1
   end
 
   describe "#add_observable" do
