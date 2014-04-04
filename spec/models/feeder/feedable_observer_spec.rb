@@ -68,7 +68,7 @@ describe Feeder::FeedableObserver do
 
     context 'when the feedable is configured to not feed' do
       around do |example|
-        Feeder.temporarily observables: { Message => { if: ->{ false }} } do
+        Feeder.temporarily observables: { Message => { if: -> message { message.nil? }} } do
           example.run
         end
       end

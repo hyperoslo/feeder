@@ -65,7 +65,7 @@ to `observe`:
 
 ```ruby
 Feeder.configure do |config|
-  config.observe Message, if: ->{ |message| message.show_in_feed? }
+  config.observe Message, if: -> message { message.show_in_feed? }
 end
 ```
 
