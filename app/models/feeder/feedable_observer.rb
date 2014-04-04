@@ -23,11 +23,13 @@ module Feeder
     def after_save(feedable)
       item = feedable.feeder_item
 
-      if feedable.respond_to? :sticky
-        item.sticky = feedable.sticky
-      end
+      if item
+        if feedable.respond_to? :sticky
+          item.sticky = feedable.sticky
+        end
 
-      item.save!
+        item.save!
+      end
     end
 
     private
