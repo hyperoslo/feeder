@@ -43,7 +43,15 @@ wish to list out on your feed, you would make a file called *_message.html.erb*
 in _app/views/feeder/types_.
 
 Feeder also comes with an observer for automatically generating wrapper items
-for your feedables (e.g. messages). All you need to do is tell Feeder what to
+for your feedables (e.g. messages). In order to use it, you only need to register
+`Feeder::FeedableObserver` into your app, which can be done in
+_config/application.rb_ like this:
+
+```ruby
+config.active_record.observers = [ 'Feeder::FeedableObserver' ]
+```
+
+Then, all you need to do is tell Feeder what to
 observe, which is done through an initializer, like this:
 
 ```ruby
