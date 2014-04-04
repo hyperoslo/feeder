@@ -3,13 +3,14 @@ require_dependency "feeder/application_controller"
 module Feeder
   class FeedsController < ApplicationController
     def index
-      @items = Item.order(sticky: :desc).order(Feeder.config.sort_order)
+      @items = Item.order(sticky: :desc)
 
-      if params[:limit]
-        @items = @items.limit params[:limit]
-      else
-        @items = @items.limit Feeder.config.default_limit
+      Feeder.config.scopes.each do |scope|
+        @items = @items.instance_eval &scope
       end
+
+      @items = @items.page(params[:page] || 1)
+      @items = @items.per(params[:limit] || 25)
     end
   end
 end

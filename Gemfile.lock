@@ -1,7 +1,8 @@
 PATH
   remote: .
   specs:
-    feeder (0.3.0)
+    feeder (0.4.0)
+      kaminari
       rails (~> 4.0)
       rails-observers
 
@@ -49,6 +50,9 @@ GEM
       hirb (~> 0.5)
       unicode-display_width (~> 0.1.1)
     i18n (0.6.9)
+    kaminari (0.15.1)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -109,6 +113,7 @@ GEM
     thread_safe (0.2.0)
       atomic (>= 1.1.7, < 2)
     tilt (1.4.1)
+    timecop (0.7.1)
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
@@ -125,3 +130,4 @@ DEPENDENCIES
   pry-rails
   rspec-rails
   sqlite3
+  timecop

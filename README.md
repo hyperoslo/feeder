@@ -43,19 +43,57 @@ wish to list out on your feed, you would make a file called *_message.html.erb*
 in _app/views/feeder/types_.
 
 Feeder also comes with an observer for automatically generating wrapper items
-for your feedables (e.g. messages). All you need to do is tell Feeder what to
+for your feedables (e.g. messages). In order to use it, you only need to register
+`Feeder::FeedableObserver` into your app, which can be done in
+_config/application.rb_ like this:
+
+```ruby
+config.active_record.observers = [ 'Feeder::FeedableObserver' ]
+```
+
+Then, all you need to do is tell Feeder what to
 observe, which is done through an initializer, like this:
 
 ```ruby
 Feeder.configure do |config|
-  config.add_observable "Message"
+  config.observe Message
 end
 ```
 
-You can observe any kind of model you wish. If you're lacking stuff to feed,
-check out the awesome [Mingle] gem.
+... and declare that your `Message` model is feedable:
+
+```ruby
+class Message < ActiveRecord::Base
+  feedable
+end
+```
+
+If you don't want to publish every message in the feed, you can supply a condition
+to `observe`:
+
+```ruby
+Feeder.configure do |config|
+  config.observe Message, if: -> message { message.show_in_feed? }
+end
+```
+
+Pretty neat.
 
 [Mingle]: https://github.com/hyperoslo/mingle
+
+### Configuration
+
+```ruby
+Feeder.configure do |config|
+  # A list of scopes that will be applied to the feed items in the controller.
+  config.scopes << proc { limit 5 }
+end
+```
+
+### Stickies
+
+You can "sticky" messages in your feed so they're pinned at the top regardless of when
+they were created. Just set the `sticky` attribute and Feeder will take care of the rest.
 
 ## Contributing
 
