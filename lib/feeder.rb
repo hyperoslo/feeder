@@ -9,9 +9,7 @@ module Feeder
     end
 
     def configure
-      raise ArgumentError, "No block provided" unless block_given?
-
-      yield config
+      yield config if block_given?
     end
   end
 
