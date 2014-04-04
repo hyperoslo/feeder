@@ -1,6 +1,7 @@
 # Feeder
 
 [![Build Status](http://img.shields.io/travis/hyperoslo/feeder.svg)](https://travis-ci.org/hyperoslo/feeder)
+[![Code Climate](http://img.shields.io/codeclimate/github/hyperoslo/feeder.svg)](https://codeclimate.com/github/hyperoslo/feeder)
 
 Feeder gives you a mountable engine that provides a route to a feed page in your
 Ruby on Rails application.
