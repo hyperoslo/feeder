@@ -48,7 +48,7 @@ observe, which is done through an initializer, like this:
 
 ```ruby
 Feeder.configure do |config|
-  config.observe Message, if: ->{ |message| message.show_in_feed? }
+  config.observe Message
 end
 ```
 
@@ -59,6 +59,17 @@ class Message < ActiveRecord::Base
   feedable
 end
 ```
+
+If you don't want to publish every message in the feed, you can supply a condition
+to `observe`:
+
+```ruby
+Feeder.configure do |config|
+  config.observe Message, if: ->{ |message| message.show_in_feed? }
+end
+```
+
+Pretty neat.
 
 [Mingle]: https://github.com/hyperoslo/mingle
 
