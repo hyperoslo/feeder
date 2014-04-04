@@ -65,5 +65,17 @@ describe Feeder::FeedableObserver do
         expect(Feeder::Item.last.sticky).to eq false
       end
     end
+
+    context 'when the feedable is configured to not feed' do
+      around do |example|
+        Feeder.temporarily observables: { Message => { if: ->{ false }} } do
+          example.run
+        end
+      end
+
+      it 'does not create a feed item' do
+        expect(Feeder::Item.count).to eq 0
+      end
+    end
   end
 end

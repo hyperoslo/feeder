@@ -16,6 +16,21 @@ module Feeder
 
       yield config
     end
+
+    # Set temporary configuration options for the duration of the given block.
+    #
+    # options - A Hash describing temporary configuration options.
+    def temporarily options = {}
+      original = @configuration.dup
+
+      options.each do |key, value|
+        @configuration.send "#{key}=", value
+      end
+
+      yield
+    ensure
+      @configuration = original
+    end
   end
 
 end
