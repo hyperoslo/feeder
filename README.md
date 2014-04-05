@@ -1,8 +1,10 @@
 # Feeder
 
-[![Build Status](https://img.shields.io/travis/hyperoslo/feeder.svg)](https://travis-ci.org/hyperoslo/feeder)
-[![Code Climate](https://img.shields.io/codeclimate/github/hyperoslo/feeder.svg)](https://codeclimate.com/github/hyperoslo/feeder)
 [![Gem Version](https://img.shields.io/gem/v/feeder.svg)](https://rubygems.org/gems/feeder)
+[![Build Status](https://img.shields.io/travis/hyperoslo/feeder.svg)](https://travis-ci.org/hyperoslo/feeder)
+[![Dependency Status](https://img.shields.io/gemnasium/hyperoslo/feeder.svg)](https://gemnasium.com/hyperoslo/feeder)
+[![Code Climate](https://img.shields.io/codeclimate/github/hyperoslo/feeder.svg)](https://codeclimate.com/github/hyperoslo/feeder)
+[![Coverage Status](https://img.shields.io/coveralls/hyperoslo/feeder.svg)](https://coveralls.io/r/hyperoslo/feeder)
 
 Feeder gives you a mountable engine that provides a route to a feed page in your
 Ruby on Rails application.
