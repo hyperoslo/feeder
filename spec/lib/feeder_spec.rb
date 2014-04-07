@@ -7,8 +7,8 @@ describe Feeder do
 
   describe ".configure" do
     context "when no block is given" do
-      it "raises an error" do
-        expect { subject.configure }.to raise_error ArgumentError
+      it "does nothing" do
+        expect(subject.configure).to be nil
       end
     end
 

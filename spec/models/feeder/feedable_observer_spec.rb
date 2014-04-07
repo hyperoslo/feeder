@@ -43,11 +43,11 @@ describe Feeder::FeedableObserver do
     end
 
     it 'mirrors the created time' do
-      expect(Feeder::Item.last.created_at).to eq message.created_at
+      expect(Feeder::Item.last.created_at.to_i).to eq message.created_at.to_i
     end
 
     it 'sets published_at to the current time' do
-      expect(Feeder::Item.last.published_at).to eq Time.zone.now
+      expect(Feeder::Item.last.published_at.to_i).to eq Time.zone.now.to_i
     end
 
     context 'when the feedable is sticky' do

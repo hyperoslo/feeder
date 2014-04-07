@@ -1,5 +1,11 @@
 # Feeder
 
+[![Gem Version](https://img.shields.io/gem/v/feeder.svg)](https://rubygems.org/gems/feeder)
+[![Build Status](https://img.shields.io/travis/hyperoslo/feeder.svg)](https://travis-ci.org/hyperoslo/feeder)
+[![Dependency Status](https://img.shields.io/gemnasium/hyperoslo/feeder.svg)](https://gemnasium.com/hyperoslo/feeder)
+[![Code Climate](https://img.shields.io/codeclimate/github/hyperoslo/feeder.svg)](https://codeclimate.com/github/hyperoslo/feeder)
+[![Coverage Status](https://img.shields.io/coveralls/hyperoslo/feeder.svg)](https://coveralls.io/r/hyperoslo/feeder)
+
 Feeder gives you a mountable engine that provides a route to a feed page in your
 Ruby on Rails application.
 
@@ -20,7 +26,7 @@ Or install it yourself as:
 Install the migrations:
 
     rake feeder:install:migrations
-    
+
 Run the migrations:
 
     rake db:migrate
@@ -43,7 +49,15 @@ wish to list out on your feed, you would make a file called *_message.html.erb*
 in _app/views/feeder/types_.
 
 Feeder also comes with an observer for automatically generating wrapper items
-for your feedables (e.g. messages). All you need to do is tell Feeder what to
+for your feedables (e.g. messages). In order to use it, you only need to register
+`Feeder::FeedableObserver` into your app, which can be done in
+_config/application.rb_ like this:
+
+```ruby
+config.active_record.observers = [ 'Feeder::FeedableObserver' ]
+```
+
+Then, all you need to do is tell Feeder what to
 observe, which is done through an initializer, like this:
 
 ```ruby

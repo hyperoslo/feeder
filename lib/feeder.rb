@@ -12,9 +12,7 @@ module Feeder
     end
 
     def configure
-      raise ArgumentError, "No block provided" unless block_given?
-
-      yield config
+      yield config if block_given?
     end
 
     # Set temporary configuration options for the duration of the given block.
