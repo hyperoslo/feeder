@@ -6,7 +6,11 @@ module Feeder
       options = options_for feedable
 
       if condition = options[:if]
-        return unless condition.call feedable
+        if condition.respond_to? :call
+          return unless condition.call feedable
+        else
+          return unless feedable.send condition
+        end
       end
 
       feedable.create_feeder_item! do |item|

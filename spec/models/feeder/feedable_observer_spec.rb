@@ -67,14 +67,28 @@ describe Feeder::FeedableObserver do
     end
 
     context 'when the feedable is configured to not feed' do
-      around do |example|
-        Feeder.temporarily observables: { Message => { if: -> message { message.nil? }} } do
-          example.run
+      context 'with a lambda' do
+        around do |example|
+          Feeder.temporarily observables: { Message => { if: -> message { message.nil? }} } do
+            example.run
+          end
+        end
+
+        it 'does not create a feed item' do
+          expect(Feeder::Item.count).to eq 0
         end
       end
 
-      it 'does not create a feed item' do
-        expect(Feeder::Item.count).to eq 0
+      context 'with a symbol' do
+        around do |example|
+          Feeder.temporarily observables: { Message => { if: :nil? } } do
+            example.run
+          end
+        end
+
+        it 'does not create a feed item' do
+          expect(Feeder::Item.count).to eq 0
+        end
       end
     end
   end
