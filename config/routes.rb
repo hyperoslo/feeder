@@ -1,3 +1,3 @@
 Feeder::Engine.routes.draw do
-  root to: 'feeds#index', via: :get
+  resources :feeds, path: '/(.:format)', only: :index
 end
