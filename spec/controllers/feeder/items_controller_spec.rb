@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 module Feeder
-  describe FeedsController do
+  describe ItemsController do
     routes { Feeder::Engine.routes }
 
     describe "GET 'index'" do

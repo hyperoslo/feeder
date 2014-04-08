@@ -1,7 +1,7 @@
 require_dependency "feeder/application_controller"
 
 module Feeder
-  class FeedsController < ApplicationController
+  class ItemsController < ApplicationController
     respond_to :html, :json
 
     def index
