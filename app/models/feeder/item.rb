@@ -12,7 +12,6 @@ module Feeder
         "(feedable_type = ? AND feedable_id IN (?))"
       end.join " OR "
 
-      # Okay, there has to be a prettier way to do this ...
       where(wheres, *(args))
     }
 
