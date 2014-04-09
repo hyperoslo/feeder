@@ -6,10 +6,7 @@ module Feeder
 
     describe "GET 'index'" do
       let!(:items) do
-        50.times.map do
-          message = Message.create header: 'Header', body: 'Body'
-          item    = Item.create feedable: message
-        end
+        create_list :feeder_item, 50
       end
 
       it "returns http success" do
@@ -25,10 +22,8 @@ module Feeder
       end
 
       context 'with stickies' do
-        let!(:sticky) {
-          message = Message.create header: 'Header', body: 'body'
-          item    = Item.create feedable: message, published_at: Time.zone.now, created_at: 1.week.ago, sticky: true
-        }
+        let!(:sticky) { create :feeder_item, :sticky, published_at: 2.day.ago }
+        let!(:other)  { create :feeder_item, published_at: 1.day.ago }
 
         it 'places stickies first' do
           get :index
