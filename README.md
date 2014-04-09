@@ -85,7 +85,48 @@ end
 
 Pretty neat.
 
-[Mingle]: https://github.com/hyperoslo/mingle
+### Filtering
+
+Want to filter out what feedables to display in your feed? We've got you covered
+through the all-powerful `filter` scope!  Give it a hash of feedables and the
+IDs that you want to fetch, and Feeder makes sure to only return feed items with
+the specified feedables. You may also pass in the symbol `:all` instead of a
+list of IDs, which would fetch each of them. For example: say you have the
+following feedables:
+
+- `ShortMessage`
+- `Tweet`
+- `NewsArticle`
+
+To get `Feeder::Item`s with news articles having IDs `[1, 2, 3, 4, 5]`, tweets
+`[2, 4, 6, 7]` and all short message, you could do like this:
+
+```ruby
+Feeder::Item.filter(
+  NewsArticle => [1, 2, 3, 4, 5],
+  Tweet => [2, 4, 6, 7],
+  ShortMessage => :all,
+)
+```
+
+**NOTE:** The `filter` scope is _exclusive_, meaning that anything you _do not_
+pass in to it will also not be brought back. With the above feedables, if you
+only want short messages `[1, 3, 4]`, but all of the tweets and news articles,
+you would have to specify them as well, like this:
+
+```ruby
+Feeder::Item.filter(
+  ShortMessage => [1, 3, 4],
+  Tweet => :all,
+  NewsArticle => :all
+)
+```
+
+The following would only return feed items with short messages:
+
+```ruby
+Feeder::Item.filter(ShortMessage => [1, 3, 4])
+```
 
 ### Configuration
 
