@@ -1,19 +1,8 @@
 module Feeder
   class Item < ::ActiveRecord::Base
+    include Feeder::Concerns::Helpers::Filter
+
     belongs_to :feedable, polymorphic: true
-
-    scope :filter, ->(options) {
-      args = []
-      wheres = options.each.map do |feedable, ids|
-        ids = feedable.pluck :id if ids == :all
-
-        args << feedable << ids
-
-        "(feedable_type = ? AND feedable_id IN (?))"
-      end.join " OR "
-
-      where(wheres, *(args))
-    }
 
     def type
       feedable_type.underscore
