@@ -17,5 +17,41 @@ module Feeder
         end
       end
     end
+
+    describe "#report" do
+      subject { create :feeder_item, reported: false }
+
+      it "ensures the item is reported" do
+        subject.report
+        expect(subject).to be_reported
+      end
+    end
+
+    describe "#block" do
+      subject { create :feeder_item, blocked: false }
+
+      it "ensures the item is blocked" do
+        subject.block
+        expect(subject).to be_blocked
+      end
+    end
+
+    describe "#unreport" do
+      subject { create :feeder_item, reported: true }
+
+      it "ensures the item is not reported" do
+        subject.unreport
+        expect(subject).not_to be_reported
+      end
+    end
+
+    describe "#unblock" do
+      subject { create :feeder_item, blocked: true }
+
+      it "ensures the item is not blocked" do
+        subject.unblock
+        expect(subject).not_to be_blocked
+      end
+    end
   end
 end
