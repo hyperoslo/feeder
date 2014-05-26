@@ -21,5 +21,7 @@ module Feeder::Concerns::Feedable
         feeder_item.sticky = value
       end
     end
+
+    delegate :block, :unblock, :blocked?, :report, :unreport, :reported?, to: :feeder_item
   end
 end
