@@ -1,3 +1,15 @@
 <div class="feed-item <%= item.type.parameterize %>">
+  <nav class="actions">
+    <% if can_recommend? item %>
+      <div class="recommend">
+        <% if item.recommended? %>
+          Recommended
+        <% else %>
+          <%= link_to t("feeder.views.recommend"), feeder.recommend_item_path(id: item.id), method: :post %>
+        <% end %>
+      </div>
+    <% end %>
+  </nav>
+
   <%= render "feeder/types/#{item.type}", feedable: item.feedable %>
 </div>

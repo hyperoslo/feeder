@@ -32,5 +32,44 @@ module Feeder
       end
     end
 
+    describe "POST 'recommend'" do
+      let!(:item) { create :feeder_item }
+
+      before do
+        request.env['HTTP_REFERER'] = 'http://example.org'
+      end
+
+      it "returns http success" do
+        post :recommend, id: item.id
+        expect(response).to be_redirect
+      end
+
+      context 'authorized' do
+        before do
+          expect(controller).to receive(:authorization_adapter).and_return(double :authorized? => true)
+        end
+
+        it "recommends the item" do
+          post :recommend, id: item.id
+          expect(item.reload).to be_recommended
+        end
+      end
+
+      context 'unauthorized' do
+        before do
+          expect(controller).to receive(:authorization_adapter).and_return(double :authorized? => false)
+        end
+
+        it "does not recommend the item" do
+          post :recommend, id: item.id
+          expect(item.reload).not_to be_recommended
+        end
+
+        it "issues a warning" do
+          post :recommend, id: item.id
+          expect(flash.count).to eq 1
+        end
+      end
+    end
   end
 end

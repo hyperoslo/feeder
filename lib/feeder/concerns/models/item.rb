@@ -26,6 +26,14 @@ module Feeder
       def unblock
         self.update blocked: false
       end
+
+      def recommend
+        self.update recommended: true
+      end
+
+      def unrecommend
+        self.update recommended: false
+      end
     end
   end
 end

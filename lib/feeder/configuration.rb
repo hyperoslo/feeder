@@ -1,14 +1,17 @@
 module Feeder
   class Configuration
     attr_accessor :scopes
+    attr_accessor :authorization_adapter
+    attr_accessor :cancan_ability_class
+    attr_accessor :current_user_method
     attr_accessor :observables
 
     def initialize
-      @scopes = [
-        proc { order created_at: :desc }
-      ]
-
-      @observables = {}
+      @scopes                = [proc { order created_at: :desc }]
+      @observables           = {}
+      @authorization_adapter = Feeder::AuthorizationAdapters::Base
+      @cancan_ability_class  = "Ability"
+      @current_user_method   = "current_user"
     end
 
     def add_observable(observable)

@@ -1,0 +1,5 @@
+en:
+  feeder:
+    views:
+      recommend: "Recommend"
+      unauthorized: "You are not authorized to perform this action"

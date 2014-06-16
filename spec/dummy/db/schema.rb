@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140526110501) do
+ActiveRecord::Schema.define(version: 20140616122709) do
 
   create_table "feeder_items", force: true do |t|
     t.datetime "published_at"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20140526110501) do
     t.boolean  "sticky",        default: false, null: false
     t.boolean  "blocked",       default: false, null: false
     t.boolean  "reported",      default: false, null: false
+    t.boolean  "recommended",   default: false, null: false
   end
 
   add_index "feeder_items", ["feedable_id", "feedable_type"], name: "index_feeder_items_on_feedable_id_and_feedable_type"
@@ -29,6 +30,11 @@ ActiveRecord::Schema.define(version: 20140526110501) do
   create_table "messages", force: true do |t|
     t.string   "header"
     t.text     "body"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "users", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end
