@@ -1,0 +1,15 @@
+nb:
+  activerecord:
+    models:
+      feeder/item:
+        one: Innlegg
+        other: Innlegg
+    attributes:
+      feeder/item:
+        feedable: Ressurs
+        sticky: Klistret
+        blocked: Blokkert
+        reported: Rapportert
+        published_at: Publiseringsdato
+        created_at: Opprettelsesdato
+        updated_at: Endringsdato
