@@ -5,6 +5,7 @@ module Feeder
 
     def initialize
       @scopes = [
+        proc { unblocked },
         proc { order created_at: :desc }
       ]
 
