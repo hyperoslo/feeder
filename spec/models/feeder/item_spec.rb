@@ -4,7 +4,7 @@ module Feeder
   describe Item do
     it_behaves_like "a filterable"
 
-    describe ".blocked" do
+    describe "::blocked" do
       let(:blocked_item)   { create :feeder_item, blocked: true }
       let(:unblocked_item) { create :feeder_item, blocked: false }
 
@@ -13,7 +13,7 @@ module Feeder
       end
     end
 
-    describe ".unblocked" do
+    describe "::unblocked" do
       let(:blocked_item)   { create :feeder_item, blocked: true }
       let(:unblocked_item) { create :feeder_item, blocked: false }
 
