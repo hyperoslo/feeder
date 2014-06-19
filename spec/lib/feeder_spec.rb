@@ -23,13 +23,13 @@ describe Feeder do
 
   describe '.temporarily' do
     it 'sets temporary configuration options' do
-      expect(Feeder.config.scopes.count).to eq 1
+      expect(Feeder.config.scopes.count).to eq 2
 
       Feeder.temporarily scopes: [] do
         expect(Feeder.config.scopes.count).to eq 0
       end
 
-      expect(Feeder.config.scopes.count).to eq 1
+      expect(Feeder.config.scopes.count).to eq 2
     end
   end
 end

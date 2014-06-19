@@ -5,6 +5,9 @@ module Feeder
     included do
       include Feeder::Concerns::Helpers::Filter
 
+      scope :unblocked, -> { where blocked: false }
+      scope :blocked,   -> { where blocked: true }
+
       belongs_to :feedable, polymorphic: true
 
       def type
