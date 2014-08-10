@@ -21,6 +21,15 @@ module Feeder
         end
       end
 
+      context 'with a page' do
+        let!(:very_last) { create :feeder_item }
+
+        it 'paginates items' do
+          get :index, page: 2, limit: 1
+          expect(assigns(:items)).to eq [items.last]
+        end
+      end
+
       context 'with stickies' do
         let!(:sticky) { create :feeder_item, :sticky, published_at: 2.day.ago }
         let!(:other)  { create :feeder_item, published_at: 1.day.ago }
