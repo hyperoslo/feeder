@@ -1,19 +1,11 @@
 require 'spec_helper'
 
 describe Feeder::Configuration do
-  it "sets the observers to an empty array upon initialization" do
-    expect(subject.observables).to eq({})
-  end
-
   it "sets default scopes order upon initialization" do
     expect(subject.scopes.count).to eq 2
   end
 
-  describe ".observe" do
-    it "adds an observable to @observables" do
-      subject.observe "SomeObservable"
-
-      expect(subject.observables).to eq({ "SomeObservable" => {} })
-    end
+  it "sets test mode to false by default" do
+    expect(subject.test_mode).to be_falsey
   end
 end
