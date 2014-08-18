@@ -6,30 +6,40 @@ module Feeder
       scope :filter, ->(*options) {
         args = []
         types = []
+        scopes = {}
+        wheres = []
 
         options.each do |opt|
           if opt <= ::ActiveRecord::Base && opt.instance_of?(Class) # Model class name as argument
             types << opt.name
-          elsif 0
+          elsif opt.class.name.eql? "ActiveRecord::Relation"
+            model = opt.model.name
+            scopes[model] = [] unless scopes[model].present?
+            scopes[model] << opt
           end
         end
 
-        wheres = []
-        unless types.empty?
+        combine_scopes(scopes, wheres, args) unless scopes.empty?
+        combine_types(types, wheres, args) unless types.empty?
+        where(wheres.join(" OR "), *(args))
+      }
+
+      def self.combine_scopes(all_scopes, wheres, args)
+        all_scopes.each do |model, scopes|
+          scope = scopes.shift
+          scope = scopes.inject(scope) { |res, scope| res.merge(scope) } unless scopes.empty?
+          wheres << "(feedable_type = ? AND feedable_id in (?))"
+
+          args << model << scope.pluck(:id)
+        end
+      end
+
+      def self.combine_types(types, wheres, args)
+         unless types.empty?
           wheres << "(feedable_type in (?))"
           args << types
         end
-
-        #wheres = options.each.map do |feedable, ids|
-        #  ids = feedable.pluck :id if ids == :all
-#
-        #  args << feedable << ids
-#
-        #  "(feedable_type = ? AND feedable_id IN (?))"
-        #end.join " OR "
-
-        where(wheres.join(" OR "), *(args))
-      }
+      end
     end
   end
 end
