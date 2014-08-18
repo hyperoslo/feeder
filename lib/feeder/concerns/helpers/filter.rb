@@ -3,17 +3,32 @@ module Feeder
     extend ActiveSupport::Concern
 
     included do
-      scope :filter, ->(options) {
+      scope :filter, ->(*options) {
         args = []
-        wheres = options.each.map do |feedable, ids|
-          ids = feedable.pluck :id if ids == :all
+        types = []
 
-          args << feedable << ids
+        options.each do |opt|
+          if opt <= ::ActiveRecord::Base && opt.instance_of?(Class) # Model class name as argument
+            types << opt.name
+          elsif 0
+          end
+        end
 
-          "(feedable_type = ? AND feedable_id IN (?))"
-        end.join " OR "
+        wheres = []
+        unless types.empty?
+          wheres << "(feedable_type in (?))"
+          args << types
+        end
 
-        where(wheres, *(args))
+        #wheres = options.each.map do |feedable, ids|
+        #  ids = feedable.pluck :id if ids == :all
+#
+        #  args << feedable << ids
+#
+        #  "(feedable_type = ? AND feedable_id IN (?))"
+        #end.join " OR "
+
+        where(wheres.join(" OR "), *(args))
       }
     end
   end
