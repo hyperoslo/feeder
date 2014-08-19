@@ -100,7 +100,7 @@ from `featured` scope and all short message, you could do like this:
 
 ```ruby
 Feeder::Item.filter(
-  NewsArticle.where("id IN (?)", [1, 2, 3, 4, 5]),
+  NewsArticle.where(id: [1, 2, 3, 4, 5]),
   Tweet.featured,
   ShortMessage,
 )
@@ -113,7 +113,7 @@ you would have to specify them as well, like this:
 
 ```ruby
 Feeder::Item.filter(
-  ShortMessage.where("id IN (?)", [1, 3, 4]),
+  ShortMessage.where(id: [1, 3, 4]),
   Tweet,
   NewsArticle
 )
