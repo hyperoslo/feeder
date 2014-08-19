@@ -4,44 +4,58 @@ shared_examples "a filterable" do
   subject { described_class }
 
   describe "::filter" do
-    context "when provided a hash" do
-      let(:left) { create_list :feeder_item, 1 }
-      let(:arguments) { { Feeder::Item => right } }
+    before do
+      create_list :message, 5
+    end
 
-      context "and the value being a list of IDs" do
-        let(:right) { left.map &:id }
-
-        let!(:expected) do
-          left.each.map do |feedable|
-            create :feeder_item, feedable: feedable
-          end
-        end
-
-        before do
-          others = create_list :feeder_item, 1
-          others.each { |feedable| create :feeder_item, feedable: feedable }
-        end
-
-        it "fetches only items based on the filter" do
-          expect(subject.filter arguments).to match_array expected
-        end
+    context "when provided scope as an argument" do
+      let (:arguments) { Message.test_odd }
+      let :expected do
+        Feeder::Item.where(feedable_id: Message.test_odd.pluck(:id))
       end
 
-      context "and the value being :all" do
-        let(:right) { :all }
+      it "fetches only items based on filtering" do
+        expect(subject.filter arguments).to match_array expected
+      end
+    end
 
-        let!(:expected) do
-          Feeder::Item.where feedable_type: "Feeder::Item"
-        end
+    context "when provided multiple scopes as an argument do" do
+      let (:arguments) { [Message.test_odd, Message.test_gte] }
+      let :expected do
+        Feeder::Item.where(feedable_id: Message.where("id >= ? and id % 2 = 1", 3).pluck(:id))
+      end
 
-        before do
-          others = create_list :feeder_item, 1
-          others.each { |feedable| create :feeder_item, feedable: feedable }
-        end
+      it "fetches only items based on filtering" do
+        expect(subject.filter *arguments).to match_array expected
+      end
+    end
 
-        it "fetches only items based on the filter" do
-          expect(subject.filter arguments).to match_array expected
-        end
+    context "when provide class as an argument" do
+      let (:arguments) { Message }
+      let :expected do
+        Feeder::Item.where(feedable_id: Message.all.pluck(:id))
+      end
+
+      it "fetches only items based on filtering" do
+        expect(subject.filter arguments).to match_array expected
+      end
+    end
+
+    context "wher provide mixed set of arguments" do
+      before do
+        create_list :article, 5
+      end
+
+      let (:arguments) { [Message.test_odd, Article] }
+      let :expected do
+        Feeder::Item.where(
+          "(feedable_type = ? and feedable_id % 2 = 1) OR (feedable_type = ?)",
+          "Message", "Article"
+        )
+      end
+
+      it "fetches only items based on filtering" do
+        expect(subject.filter *arguments).to match_array expected
       end
     end
   end
