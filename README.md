@@ -96,7 +96,7 @@ For example: say you have the following feedables:
 - `NewsArticle`
 
 To get `Feeder::Item`s with news articles having IDs `[1, 2, 3, 4, 5]`, tweets
-from `featuerd` scope and all short message, you could do like this:
+from `featured` scope and all short message, you could do like this:
 
 ```ruby
 Feeder::Item.filter(
