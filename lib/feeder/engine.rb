@@ -1,5 +1,3 @@
-require 'rails-observers'
-
 module Feeder
   class Engine < ::Rails::Engine
     isolate_namespace Feeder

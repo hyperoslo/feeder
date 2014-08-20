@@ -48,42 +48,15 @@ name as your item type. As an example, if you have a `Message` model that you
 wish to list out on your feed, you would make a file called *_message.html.erb*
 in _app/views/feeder/types_.
 
-Feeder also comes with an observer for automatically generating wrapper items
-for your feedables (e.g. messages). In order to use it, you only need to register
-`Feeder::FeedableObserver` into your app, which can be done in
-_config/application.rb_ like this:
-
-```ruby
-config.active_record.observers = [ 'Feeder::FeedableObserver' ]
-```
-
-Then, all you need to do is tell Feeder what to
-observe, which is done through an initializer, like this:
-
-```ruby
-Feeder.configure do |config|
-  config.observe Message
-end
-```
-
-... and declare that your `Message` model is feedable:
+Then, all you need to do is to declare that your `Message` model is feedable:
 
 ```ruby
 class Message < ActiveRecord::Base
+  # If you don't want to publish every message in the feed,
+  # you can provide an option: `if: -> message { message.show_in_feed? }`
   feedable
 end
 ```
-
-If you don't want to publish every message in the feed, you can supply a condition
-to `observe`:
-
-```ruby
-Feeder.configure do |config|
-  config.observe Message, if: -> message { message.show_in_feed? }
-end
-```
-
-Pretty neat.
 
 ### Filtering
 
@@ -131,6 +104,14 @@ Feeder::Item.filter(ShortMessage)
 Feeder.configure do |config|
   # A list of scopes that will be applied to the feed items in the controller.
   config.scopes << proc { limit 5 }
+end
+```
+
+Add this to your `spec/spec_helper.rb` if you don't want to create
+`Feeder::Item` during the tests:
+```ruby
+Feeder.configure do |config|
+  config.test_mode = true
 end
 ```
 
