@@ -165,8 +165,8 @@ to derive the current user is called something other than `current_user`, you wi
 ```ruby
 Feeder.configure do |config|
   config.authorization_adapter = Feeder::AuthorizationAdapters::CanCanAdapter
-  config.current_user_method   = 'current_author'
-  config.cancan_ability_class  = 'Permission'
+  config.authorization_adapter.cancan_ability_class  = 'Permission'
+  config.current_user_method = 'current_author'
 end
 ```
 

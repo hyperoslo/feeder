@@ -8,6 +8,20 @@ describe Feeder::AuthorizationAdapters::CanCanAdapter do
     described_class.new user
   end
 
+  context "configured" do
+    before { subject.cancan_ability_class = "Foo" }
+
+    it "should change the its ability class" do
+      expect(subject.cancan_ability_class).to eq "Foo"
+    end
+  end
+
+  context "unconfigured" do
+    it "should default the its ability class" do
+      expect(subject.cancan_ability_class).to eq "Ability"
+    end
+  end
+
   context "authorized" do
     before do
       expect(subject.cancan_ability).to receive(:can?).with(:manage, item).and_return(true)
