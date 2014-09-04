@@ -18,6 +18,12 @@ describe Feeder::Concerns::Feedable do
     expect(subject).to respond_to :sticky=
   end
 
+  it 'converts strings to booleans' do
+    subject.sticky = "0"
+
+    expect(subject.sticky).to eq false
+  end
+
   context 'with a feeder item' do
     before do
       expect(subject).to receive(:feeder_item).and_return(double sticky: true).at_least(1).times
