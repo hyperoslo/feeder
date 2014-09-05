@@ -46,7 +46,7 @@ module Feeder
 
       context 'authorized' do
         before do
-          expect(controller).to receive(:authorization_adapter).and_return(double :authorized? => true)
+          expect(controller).to receive(:authorization_adapter).and_return(double authorized?: true)
         end
 
         it "recommends the item" do
@@ -57,7 +57,7 @@ module Feeder
 
       context 'unauthorized' do
         before do
-          expect(controller).to receive(:authorization_adapter).and_return(double :authorized? => false)
+          expect(controller).to receive(:authorization_adapter).and_return(double authorized?: false)
         end
 
         it "does not recommend the item" do
