@@ -3,7 +3,7 @@
     <% if can_recommend? item %>
       <div class="recommend">
         <% if item.recommended? %>
-          Recommended
+          <%= link_to t("feeder.views.unrecommend"), feeder.unrecommend_item_path(id: item.id), method: :post %>
         <% else %>
           <%= link_to t("feeder.views.recommend"), feeder.recommend_item_path(id: item.id), method: :post %>
         <% end %>
