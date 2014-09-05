@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe 'feeder/items/_item.html.erb' do
+  helper(Feeder::AuthorizationHelper)
+
   before do
     render partial: 'feeder/items/item.html.erb', locals: {
       item: item

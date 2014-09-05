@@ -18,7 +18,7 @@ module Feeder
           @items = @items.instance_eval &scope
         end
 
-        @items = @items.page(params[:page] || 1)
+        @items = @items.kaminari_page(params[:page] || 1)
         @items = @items.per(params[:limit] || 25)
 
         respond_with @items

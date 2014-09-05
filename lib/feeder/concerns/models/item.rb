@@ -5,6 +5,9 @@ module Feeder
     included do
       include Feeder::Concerns::Helpers::Filter
 
+      scope :unblocked, -> { where blocked: false }
+      scope :blocked,   -> { where blocked: true }
+
       belongs_to :feedable, polymorphic: true
 
       def type
@@ -12,19 +15,19 @@ module Feeder
       end
 
       def report
-        self.update reported: true
+        update reported: true
       end
 
       def block
-        self.update blocked: true
+        update blocked: true
       end
 
       def unreport
-        self.update reported: false
+        update reported: false
       end
 
       def unblock
-        self.update blocked: false
+        update blocked: false
       end
 
       def recommend

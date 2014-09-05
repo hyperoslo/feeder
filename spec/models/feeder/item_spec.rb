@@ -4,6 +4,24 @@ module Feeder
   describe Item do
     it_behaves_like "a filterable"
 
+    describe "::blocked" do
+      let(:blocked_item)   { create :feeder_item, blocked: true }
+      let(:unblocked_item) { create :feeder_item, blocked: false }
+
+      it "returns blocked items" do
+        expect(described_class.blocked).to eq [blocked_item]
+      end
+    end
+
+    describe "::unblocked" do
+      let(:blocked_item)   { create :feeder_item, blocked: true }
+      let(:unblocked_item) { create :feeder_item, blocked: false }
+
+      it "returns unblocked items" do
+        expect(described_class.unblocked).to eq [unblocked_item]
+      end
+    end
+
     describe "#type" do
       it "returns the lowercase version of the feedable's type, separating words with an underscore" do
         subject.stub(:feedable_type).and_return "SomeFeedable"

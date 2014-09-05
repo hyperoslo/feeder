@@ -48,64 +48,34 @@ name as your item type. As an example, if you have a `Message` model that you
 wish to list out on your feed, you would make a file called *_message.html.erb*
 in _app/views/feeder/types_.
 
-Feeder also comes with an observer for automatically generating wrapper items
-for your feedables (e.g. messages). In order to use it, you only need to register
-`Feeder::FeedableObserver` into your app, which can be done in
-_config/application.rb_ like this:
-
-```ruby
-config.active_record.observers = [ 'Feeder::FeedableObserver' ]
-```
-
-Then, all you need to do is tell Feeder what to
-observe, which is done through an initializer, like this:
-
-```ruby
-Feeder.configure do |config|
-  config.observe Message
-end
-```
-
-... and declare that your `Message` model is feedable:
+Then, all you need to do is to declare that your `Message` model is feedable:
 
 ```ruby
 class Message < ActiveRecord::Base
+  # If you don't want to publish every message in the feed,
+  # you can provide an option: `if: -> message { message.show_in_feed? }`
   feedable
 end
 ```
 
-If you don't want to publish every message in the feed, you can supply a condition
-to `observe`:
-
-```ruby
-Feeder.configure do |config|
-  config.observe Message, if: -> message { message.show_in_feed? }
-end
-```
-
-Pretty neat.
-
 ### Filtering
 
 Want to filter out what feedables to display in your feed? We've got you covered
-through the all-powerful `filter` scope!  Give it a hash of feedables and the
-IDs that you want to fetch, and Feeder makes sure to only return feed items with
-the specified feedables. You may also pass in the symbol `:all` instead of a
-list of IDs, which would fetch each of them. For example: say you have the
-following feedables:
-
+through the all-powerful `filter` scope! Give it a scope or model class, 
+and Feeder makes sure to only return feed items with the specified feedables.
+For example: say you have the following feedables:
 - `ShortMessage`
 - `Tweet`
 - `NewsArticle`
 
 To get `Feeder::Item`s with news articles having IDs `[1, 2, 3, 4, 5]`, tweets
-`[2, 4, 6, 7]` and all short message, you could do like this:
+from `featured` scope and all short message, you could do like this:
 
 ```ruby
 Feeder::Item.filter(
-  NewsArticle => [1, 2, 3, 4, 5],
-  Tweet => [2, 4, 6, 7],
-  ShortMessage => :all,
+  NewsArticle.where(id: [1, 2, 3, 4, 5]),
+  Tweet.featured,
+  ShortMessage,
 )
 ```
 
@@ -116,16 +86,16 @@ you would have to specify them as well, like this:
 
 ```ruby
 Feeder::Item.filter(
-  ShortMessage => [1, 3, 4],
-  Tweet => :all,
-  NewsArticle => :all
+  ShortMessage.where(id: [1, 3, 4]),
+  Tweet,
+  NewsArticle
 )
 ```
 
 The following would only return feed items with short messages:
 
 ```ruby
-Feeder::Item.filter(ShortMessage => [1, 3, 4])
+Feeder::Item.filter(ShortMessage)
 ```
 
 ### Configuration
@@ -134,6 +104,14 @@ Feeder::Item.filter(ShortMessage => [1, 3, 4])
 Feeder.configure do |config|
   # A list of scopes that will be applied to the feed items in the controller.
   config.scopes << proc { limit 5 }
+end
+```
+
+Add this to your `spec/spec_helper.rb` if you don't want to create
+`Feeder::Item` during the tests:
+```ruby
+Feeder.configure do |config|
+  config.test_mode = true
 end
 ```
 
