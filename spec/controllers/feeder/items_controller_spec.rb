@@ -53,6 +53,11 @@ module Feeder
           post :recommend, id: item.id
           expect(item.reload).to be_recommended
         end
+
+        it "issues a notice" do
+          post :recommend, id: item.id
+          expect(flash[:notice]).to eq I18n.t("feeder.views.recommended")
+        end
       end
 
       context 'unauthorized' do
@@ -65,9 +70,9 @@ module Feeder
           expect(item.reload).not_to be_recommended
         end
 
-        it "issues a warning" do
+        it "issues an error" do
           post :recommend, id: item.id
-          expect(flash.count).to eq 1
+          expect(flash[:error]).to eq I18n.t("feeder.views.unauthorized")
         end
       end
     end
@@ -93,6 +98,11 @@ module Feeder
           post :unrecommend, id: item.id
           expect(item.reload).not_to be_recommended
         end
+
+        it "issues a notice" do
+          post :unrecommend, id: item.id
+          expect(flash[:notice]).to eq I18n.t("feeder.views.unrecommended")
+        end
       end
 
       context 'unauthorized' do
@@ -105,9 +115,9 @@ module Feeder
           expect(item.reload).to be_recommended
         end
 
-        it "issues a warning" do
+        it "issues an error" do
           post :recommend, id: item.id
-          expect(flash.count).to eq 1
+          expect(flash[:error]).to eq I18n.t("feeder.views.unauthorized")
         end
       end
     end
