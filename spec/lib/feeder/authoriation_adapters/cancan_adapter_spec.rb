@@ -3,10 +3,7 @@ require "spec_helper"
 describe Feeder::AuthorizationAdapters::CanCanAdapter do
   let(:user) { create :user }
   let(:item) { create :feeder_item }
-
-  subject do
-    described_class.new user
-  end
+  subject    { described_class.new user }
 
   context "configured" do
     before { subject.cancan_ability_class = "Foo" }
