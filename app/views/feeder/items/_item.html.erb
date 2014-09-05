@@ -12,9 +12,9 @@
   </nav>
 
   <% if item.recommended? %>
-  <div class="recommended">
-    Recommended
-  </div>
+    <div class="recommended">
+      Recommended
+    </div>
   <% end %>
 
   <%= render "feeder/types/#{item.type}", feedable: item.feedable %>
