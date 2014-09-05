@@ -1,5 +1,7 @@
 en:
   feeder:
     views:
+      recommended: "The item was recommended"
+      unrecommended: "The item was unrecommended"
       recommend: "Recommend"
       unauthorized: "You are not authorized to perform this action"

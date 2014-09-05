@@ -25,6 +25,7 @@ module Feeder
       def recommend
         if can_recommend? @item
           @item.recommend
+          flash[:notice] = I18n.t("feeder.views.recommended")
         else
           flash[:error] = I18n.t("feeder.views.unauthorized")
         end
@@ -35,6 +36,7 @@ module Feeder
       def unrecommend
         if can_recommend? @item
           @item.unrecommend
+          flash[:notice] = I18n.t("feeder.views.unrecommended")
         else
           flash[:error] = I18n.t("feeder.views.unauthorized")
         end
