@@ -8,13 +8,13 @@ describe Feeder::AuthorizationAdapters::CanCanAdapter do
   context "configured" do
     before { subject.cancan_ability_class = "Foo" }
 
-    it "should change the its ability class" do
+    it "changes its ability class" do
       expect(subject.cancan_ability_class).to eq "Foo"
     end
   end
 
   context "unconfigured" do
-    it "should default the its ability class" do
+    it "defaults the its ability class" do
       expect(subject.cancan_ability_class).to eq "Ability"
     end
   end
@@ -24,7 +24,7 @@ describe Feeder::AuthorizationAdapters::CanCanAdapter do
       expect(subject.cancan_ability).to receive(:can?).with(:manage, item).and_return(true)
     end
 
-    it "should authorize" do
+    it "authorizes" do
       expect(subject).to be_authorized(:manage, item)
     end
   end
@@ -34,7 +34,7 @@ describe Feeder::AuthorizationAdapters::CanCanAdapter do
       expect(subject.cancan_ability).to receive(:can?).with(:manage, item).and_return(false)
     end
 
-    it "should not authorize" do
+    it "does not authorize" do
       expect(subject).not_to be_authorized(:manage, item)
     end
   end
