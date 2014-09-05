@@ -2,6 +2,8 @@ require "feeder/engine"
 require "feeder/configuration"
 require "feeder/concerns"
 require "feeder/active_record"
+require "feeder/authorization_adapters"
+require "kaminari"
 
 module Feeder
 

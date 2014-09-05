@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20140815105053) do
     t.boolean  "sticky",        default: false, null: false
     t.boolean  "blocked",       default: false, null: false
     t.boolean  "reported",      default: false, null: false
+    t.boolean  "recommended",   default: false, null: false
   end
 
   add_index "feeder_items", ["feedable_id", "feedable_type"], name: "index_feeder_items_on_feedable_id_and_feedable_type"
@@ -36,6 +37,11 @@ ActiveRecord::Schema.define(version: 20140815105053) do
   create_table "messages", force: true do |t|
     t.string   "header"
     t.text     "body"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "users", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end

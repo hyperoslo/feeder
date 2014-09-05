@@ -117,8 +117,36 @@ end
 
 ### Stickies
 
-You can "sticky" messages in your feed so they're pinned at the top regardless of when
+You can "sticky" items in your feed so they're pinned at the top regardless of when
 they were created. Just set the `sticky` attribute and Feeder will take care of the rest.
+
+### Recommendations
+
+You can appoint moderators to recommend exemplary items to your feed. You can configure the
+conditions upon which a user is allowed to recommend items by creating an authorization adapter.
+
+```ruby
+Feeder.configure do |config|
+  config.authorization_adapter = MyAuthorizationAdapter
+end
+```
+
+An authorization adapter is just a class that can be initialized with a user and responds to
+`authorized?` (see `Feeder::AuthorizationAdapters::Base`).
+
+Feeder ships with an authorization adapter for CanCan. To use it, just set the `authorization_adapter`
+configuration to `Feeder::AuthorizationAdapter::CanCanAdapter`. If your ability is called something
+other than `Ability`, you will also want to configure `cancan_ability_class` to refer to it. If the method
+to derive the current user is called something other than `current_user`, you will also want to configure
+`current_user_method`.
+
+```ruby
+Feeder.configure do |config|
+  config.authorization_adapter = Feeder::AuthorizationAdapters::CanCanAdapter
+  config.authorization_adapter.cancan_ability_class  = 'Permission'
+  config.current_user_method = 'current_author'
+end
+```
 
 ## Contributing
 

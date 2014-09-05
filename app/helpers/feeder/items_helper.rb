@@ -1,4 +1,4 @@
 module Feeder
-  module FeedsHelper
+  module ItemsHelper
   end
 end
