@@ -19,12 +19,6 @@ describe "feeder/items/_item.html.erb" do
 
     context "for users that can recommend" do
       before do
-        class EveryoneAdapter < Feeder::AuthorizationAdapters::Base
-          def authorized? action, subject
-            true
-          end
-        end
-
         Feeder.configure do |config|
           config.authorization_adapter = EveryoneAdapter
         end
