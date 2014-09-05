@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 module Feeder
   describe ItemsController do
@@ -14,27 +14,27 @@ module Feeder
         expect(response).to be_successful
       end
 
-      context 'with a limit' do
-        it 'loads the given amount of items' do
+      context "with a limit" do
+        it "loads the given amount of items" do
           get :index, limit: 5
           expect(assigns(:items).count).to eq 5
         end
       end
 
-      context 'with a page' do
+      context "with a page" do
         let!(:very_last) { create :feeder_item }
 
-        it 'paginates items' do
+        it "paginates items" do
           get :index, page: 2, limit: 1
           expect(assigns(:items)).to eq [items.last]
         end
       end
 
-      context 'with stickies' do
+      context "with stickies" do
         let!(:sticky) { create :feeder_item, :sticky, published_at: 2.day.ago }
         let!(:other)  { create :feeder_item, published_at: 1.day.ago }
 
-        it 'places stickies first' do
+        it "places stickies first" do
           get :index
           expect(assigns(:items).first).to eq sticky
         end
@@ -45,7 +45,7 @@ module Feeder
       let!(:item) { create :feeder_item }
 
       before do
-        request.env['HTTP_REFERER'] = 'http://example.org'
+        request.env["HTTP_REFERER"] = "http://example.org"
       end
 
       it "returns http success" do
@@ -53,7 +53,7 @@ module Feeder
         expect(response).to be_redirect
       end
 
-      context 'authorized' do
+      context "authorized" do
         before do
           expect(controller).to receive(:authorization_adapter).and_return(double authorized?: true)
         end
@@ -69,7 +69,7 @@ module Feeder
         end
       end
 
-      context 'unauthorized' do
+      context "unauthorized" do
         before do
           expect(controller).to receive(:authorization_adapter).and_return(double authorized?: false)
         end
@@ -90,7 +90,7 @@ module Feeder
       let!(:item) { create :feeder_item, recommended: true }
 
       before do
-        request.env['HTTP_REFERER'] = 'http://example.org'
+        request.env["HTTP_REFERER"] = "http://example.org"
       end
 
       it "returns http success" do
@@ -98,7 +98,7 @@ module Feeder
         expect(response).to be_redirect
       end
 
-      context 'authorized' do
+      context "authorized" do
         before do
           expect(controller).to receive(:authorization_adapter).and_return(double :authorized? => true)
         end
@@ -114,7 +114,7 @@ module Feeder
         end
       end
 
-      context 'unauthorized' do
+      context "unauthorized" do
         before do
           expect(controller).to receive(:authorization_adapter).and_return(double :authorized? => false)
         end
