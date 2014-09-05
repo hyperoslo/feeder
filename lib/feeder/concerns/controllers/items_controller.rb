@@ -9,6 +9,8 @@ module Feeder
 
       before_action :set_item, only: [:recommend, :unrecommend]
 
+      helper_method :can_recommend?
+
       def index
         @items = Item.order(sticky: :desc)
 
