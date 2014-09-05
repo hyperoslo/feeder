@@ -31,5 +31,5 @@ DESC
   s.add_development_dependency "capybara"
   s.add_development_dependency "factory_girl_rails"
   s.add_development_dependency "timecop"
-  s.add_development_dependency "cancan"
+  s.add_development_dependency "cancancan"
 end
