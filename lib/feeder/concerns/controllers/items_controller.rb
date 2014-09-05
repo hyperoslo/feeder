@@ -26,7 +26,7 @@ module Feeder
         if can_recommend? @item
           @item.recommend
         else
-          flash[:warning] = I18n.t("feeder.views.unauthorized")
+          flash[:error] = I18n.t("feeder.views.unauthorized")
         end
 
         redirect_to :back
@@ -36,7 +36,7 @@ module Feeder
         if can_recommend? @item
           @item.unrecommend
         else
-          flash[:warning] = I18n.t("feeder.views.unauthorized")
+          flash[:error] = I18n.t("feeder.views.unauthorized")
         end
 
         redirect_to :back

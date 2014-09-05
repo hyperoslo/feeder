@@ -4,7 +4,7 @@ module Feeder
       attr_accessor :cancan_ability_class
 
       def initialize *args
-        self.cancan_ability_class = "Ability"
+        @cancan_ability_class = "Ability"
 
         super
       end
