@@ -1,4 +1,4 @@
-<li class="feed-item <%= item.type.parameterize %>">
+<li class="feed-item <%= item.type.parameterize %><%= " sticky" if item.sticky? %>">
   <nav class="actions">
     <% if can_recommend? item %>
       <div class="recommend">
