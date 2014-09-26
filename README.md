@@ -31,6 +31,13 @@ Run the migrations:
 
     rake db:migrate
 
+Add the helper in your controllers:
+
+    # app/controllers/application_controller.rb
+    class ApplicationController < ActionController::Base
+      helper Feeder::AuthorizationHelper
+    end
+
 ## Usage
 
 To make Feeder available, mount it to a route by adding the following somewhere
