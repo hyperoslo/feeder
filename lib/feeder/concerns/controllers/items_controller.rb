@@ -15,7 +15,9 @@ module Feeder
         @items = Item.order(sticky: :desc)
 
         Feeder.config.scopes.each do |scope|
-          @items = @items.instance_eval &scope
+          if @items.instance_exec(self, &scope)
+            @items = @items.instance_exec(self, &scope)
+          end
         end
 
         @items = @items.kaminari_page(params[:page] || 1)

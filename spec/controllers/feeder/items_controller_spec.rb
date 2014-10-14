@@ -39,6 +39,28 @@ module Feeder
           expect(assigns(:items).first).to eq sticky
         end
       end
+
+      context "with parameters" do
+        before do
+          Feeder.configure do |config|
+            config.scopes << proc { |ctrl| ctrl.params.has_key?(:recommended) ? where(recommended: ctrl.params[:recommended]) : nil }
+          end
+        end
+
+        let!(:recommended) { create :feeder_item, :recommended, :published }
+        let!(:other)  { create :feeder_item, :published }
+
+        it "returns only recommended items" do
+          get :index, recommended: true
+          expect(assigns(:items).first).to eq recommended
+        end
+
+        after do
+          Feeder.configure do |config|
+            config.scopes.pop
+          end
+        end
+      end
     end
 
     describe "POST 'recommend'" do
