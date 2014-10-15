@@ -12,7 +12,7 @@ module Feeder::Concerns::Feedable
     end
 
     delegate :block, :unblock, :blocked?, :report, :unreport, :reported?,
-      :recommend, :unrecommend, :recommended?, to: :feeder_item
+      :recommended?, to: :feeder_item
 
     def sticky
       if feeder_item
