@@ -4,10 +4,11 @@ module Feeder
 
     included do
       include AuthorizationHelper
+      include LikeHelper
 
       respond_to :html, :json
 
-      before_action :set_item, only: [:recommend, :unrecommend]
+      before_action :set_item, only: [:recommend, :unrecommend, :like, :unlike]
 
       helper_method :can_recommend?
 
@@ -46,7 +47,42 @@ module Feeder
         redirect_to :back
       end
 
+      def like
+        vote(@item, :vote_by)
+      end
+
+      def unlike
+        vote(@item, :unvote)
+      end
+
       protected
+
+      def vote(item, method)
+        if can_like? item
+          if params[:like_scope]
+            if valid_like_scope? params[:like_scope]
+              item.send(method, voter: liker, vote_scope: params[:like_scope])
+            end
+          else
+            item.send(method, voter: liker)
+          end
+
+          case method
+          when :vote_by
+            flash[:notice] = I18n.t("feeder.views.liked")
+          when :unvote
+            flash[:notice] = I18n.t("feeder.views.unliked")
+          end
+        else
+          flash[:error] = I18n.t("feeder.views.unauthorized")
+        end
+
+        redirect_to :back
+      end
+
+      def liker
+        send(Feeder.config.current_user_method)
+      end
 
       def set_item
         @item = Item.find params[:id]

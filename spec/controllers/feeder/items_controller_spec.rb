@@ -130,5 +130,123 @@ module Feeder
         end
       end
     end
+
+    describe "POST 'like'" do
+      let!(:item) { create :feeder_item }
+      let!(:user) { create :user }
+
+      before do
+        request.env["HTTP_REFERER"] = "http://example.org"
+
+        class Feeder::ItemsController
+          def current_user
+            User.first
+          end
+        end
+      end
+
+      it "returns http success" do
+        post :like, id: item.id
+        expect(response).to be_redirect
+      end
+
+      context "authorized" do
+        before do
+          expect(controller).to receive(:authorization_adapter).and_return(double authorized?: true)
+        end
+
+        it "likes the item" do
+          post :like, id: item.id
+          expect(response).to be_redirect
+          expect(item.get_likes(voter: user).any?).to be true
+        end
+
+        context "with valid scope" do
+          before do
+            Feeder.config.like_scopes << :foo
+          end
+
+          it "likes the item" do
+            post :like, id: item.id, like_scope: "foo"
+            expect(item.get_likes(voter: user, vote_scope: "foo").any?).to be true
+          end
+        end
+
+        context "with invalid scope" do
+          it "likes the item" do
+            post :like, id: item.id, like_scope: "bar"
+            expect(item.get_likes(voter: user, vote_scope: "bar").any?).to be false
+          end
+        end
+      end
+
+      context "unauthorized" do
+        before do
+          expect(controller).to receive(:authorization_adapter).and_return(double authorized?: false)
+        end
+
+        it "does not like the item" do
+          post :like, id: item.id
+          expect(item.get_likes(voter: user).any?).to be false
+        end
+      end
+
+      after do
+        class Feeder::ItemsController
+          def current_user
+          end
+        end
+      end
+    end
+
+    describe "POST 'unlike'" do
+      let!(:item) { create :feeder_item }
+      let!(:user) { create :user }
+
+      before do
+        item.liked_by user
+        request.env["HTTP_REFERER"] = "http://example.org"
+
+        class Feeder::ItemsController
+          def current_user
+            User.first
+          end
+        end
+      end
+
+      it "returns http success" do
+        post :unlike, id: item.id
+        expect(response).to be_redirect
+      end
+
+      context "authorized" do
+        before do
+          expect(controller).to receive(:authorization_adapter).and_return(double authorized?: true)
+        end
+
+        it "unlikes the item" do
+          post :unlike, id: item.id
+          expect(item.get_likes(voter: user).any?).to be false
+        end
+      end
+
+      context "unauthorized" do
+        before do
+          expect(controller).to receive(:authorization_adapter).and_return(double authorized?: false)
+        end
+
+        it "does not unlike the item" do
+          post :unlike, id: item.id
+          expect(item.get_likes(voter: user).any?).to be true
+        end
+      end
+
+      after do
+        class Feeder::ItemsController
+          def current_user
+          end
+        end
+      end
+    end
   end
 end
