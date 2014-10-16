@@ -4,4 +4,7 @@ en:
       recommended: "The item was recommended"
       unrecommended: "The item was unrecommended"
       recommend: "Recommend"
+      like: "Like"
+      liked: "The item was liked"
+      unliked: "The item was unliked"
       unauthorized: "You are not authorized to perform this action"

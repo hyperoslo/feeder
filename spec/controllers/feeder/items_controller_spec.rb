@@ -178,6 +178,11 @@ module Feeder
             expect(item.get_likes(voter: user, vote_scope: "bar").any?).to be false
           end
         end
+
+        it "issues a notice" do
+          post :like, id: item.id
+          expect(flash[:notice]).to eq I18n.t("feeder.views.liked")
+        end
       end
 
       context "unauthorized" do
@@ -188,6 +193,11 @@ module Feeder
         it "does not like the item" do
           post :like, id: item.id
           expect(item.get_likes(voter: user).any?).to be false
+        end
+
+        it "issues an error" do
+          post :like, id: item.id
+          expect(flash[:error]).to eq I18n.t("feeder.views.unauthorized")
         end
       end
 
@@ -228,6 +238,11 @@ module Feeder
           post :unlike, id: item.id
           expect(item.get_likes(voter: user).any?).to be false
         end
+
+        it "issues a notice" do
+          post :unlike, id: item.id
+          expect(flash[:notice]).to eq I18n.t("feeder.views.unliked")
+        end
       end
 
       context "unauthorized" do
@@ -238,6 +253,11 @@ module Feeder
         it "does not unlike the item" do
           post :unlike, id: item.id
           expect(item.get_likes(voter: user).any?).to be true
+        end
+
+        it "issues an error" do
+          post :unlike, id: item.id
+          expect(flash[:error]).to eq I18n.t("feeder.views.unauthorized")
         end
       end
 
