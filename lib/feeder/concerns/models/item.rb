@@ -5,6 +5,8 @@ module Feeder
     included do
       include Feeder::Concerns::Helpers::Filter
 
+      acts_as_votable
+
       scope :unblocked, -> { where blocked: false }
       scope :blocked,   -> { where blocked: true }
 
