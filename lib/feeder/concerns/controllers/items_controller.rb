@@ -62,6 +62,9 @@ module Feeder
           if params[:like_scope]
             if valid_like_scope? params[:like_scope]
               item.send(method, voter: liker, vote_scope: params[:like_scope])
+            else
+              head :bad_request
+              return
             end
           else
             item.send(method, voter: liker)
@@ -78,10 +81,6 @@ module Feeder
         end
 
         redirect_to :back
-      end
-
-      def liker
-        send(Feeder.config.current_user_method)
       end
 
       def set_item

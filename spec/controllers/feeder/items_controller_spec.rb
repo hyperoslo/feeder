@@ -175,7 +175,7 @@ module Feeder
         context "with invalid scope" do
           it "likes the item" do
             post :like, id: item.id, like_scope: "bar"
-            expect(item.get_likes(voter: user, vote_scope: "bar").any?).to be false
+            expect(response.status).to be 400
           end
         end
 
