@@ -200,13 +200,6 @@ module Feeder
           expect(flash[:error]).to eq I18n.t("feeder.views.unauthorized")
         end
       end
-
-      after do
-        class Feeder::ItemsController
-          def current_user
-          end
-        end
-      end
     end
 
     describe "POST 'unlike'" do
@@ -258,13 +251,6 @@ module Feeder
         it "issues an error" do
           post :unlike, id: item.id
           expect(flash[:error]).to eq I18n.t("feeder.views.unauthorized")
-        end
-      end
-
-      after do
-        class Feeder::ItemsController
-          def current_user
-          end
         end
       end
     end
