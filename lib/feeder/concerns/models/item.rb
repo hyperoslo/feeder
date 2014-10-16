@@ -1,3 +1,5 @@
+require 'acts_as_votable'
+
 module Feeder
   module Concerns::Models::Item
     extend ActiveSupport::Concern
