@@ -15,10 +15,10 @@ module Feeder
         @items = Item.order(sticky: :desc)
 
         Feeder.config.scopes.each do |scope|
-          if @items.instance_exec(self, &scope)
-            @items = @items.instance_exec(self, &scope)
-          end
+          @items = @items.instance_eval &scope
         end
+
+        custom_scopes
 
         @items = @items.kaminari_page(params[:page] || 1)
         @items = @items.per(params[:limit] || 25)
@@ -52,6 +52,9 @@ module Feeder
 
       def set_item
         @item = Item.find params[:id]
+      end
+
+      def custom_scopes
       end
     end
   end

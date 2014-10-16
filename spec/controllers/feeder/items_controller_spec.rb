@@ -40,10 +40,15 @@ module Feeder
         end
       end
 
-      context "with parameters" do
+      context "with custom scopes" do
         before do
-          Feeder.configure do |config|
-            config.scopes << proc { |ctrl| ctrl.params.has_key?(:recommended) ? where(recommended: ctrl.params[:recommended]) : nil }
+          class Feeder::ItemsController < ApplicationController
+            include ::Feeder::Concerns::Controllers::ItemsController
+            def custom_scopes
+              if params[:recommended]
+                @items = @items.where(recommended: params[:recommended])
+              end
+            end
           end
         end
 
@@ -53,12 +58,6 @@ module Feeder
         it "returns only recommended items" do
           get :index, recommended: true
           expect(assigns(:items).first).to eq recommended
-        end
-
-        after do
-          Feeder.configure do |config|
-            config.scopes.pop
-          end
         end
       end
     end
