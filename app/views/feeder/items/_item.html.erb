@@ -19,11 +19,13 @@
         <% end %>
 
         <% like_scopes.each do |scope| %>
-          <% if item.liked_by?(liker, scope) %>
-            <%= link_to t("feeder.views.like.scopes.un#{scope.to_s}"), feeder.unlike_item_path(id: item.id), like_scope: scope, method: :post %>
-          <% else %>
-            <%= link_to t("feeder.views.like.scopes.#{scope.to_s}"), feeder.like_item_path(id: item.id), like_scope: scope, method: :post %>
-          <% end %>
+          <div class="like <%= scope.to_s %>">
+            <% if item.liked_by?(liker, scope) %>
+              <%= link_to t("feeder.views.like.scopes.un#{scope.to_s}"), feeder.unlike_item_path(id: item.id, like_scope: scope), method: :post %>
+            <% else %>
+              <%= link_to t("feeder.views.like.scopes.#{scope.to_s}"), feeder.like_item_path(id: item.id, like_scope: scope), method: :post %>
+            <% end %>
+          </div>
         <% end %>
       </div>
     <% end %>
