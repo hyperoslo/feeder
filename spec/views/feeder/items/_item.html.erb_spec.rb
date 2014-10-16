@@ -2,6 +2,7 @@ require "spec_helper"
 
 describe "feeder/items/_item.html.erb" do
   helper(Feeder::AuthorizationHelper)
+  helper(Feeder::LikeHelper)
 
   before do
     render partial: "feeder/items/item.html.erb", locals: {
@@ -46,6 +47,66 @@ describe "feeder/items/_item.html.erb" do
 
     it "does not show that it is recommended" do
       expect(rendered).not_to match "recommended"
+    end
+  end
+
+  context "liked item" do
+    let(:message) { create :message }
+    let(:item)    { create :feeder_item, feedable: message }
+    let(:user)    { create :user }
+
+    before do
+      item.liked_by user
+    end
+
+    context "for users that can like" do
+      before do
+        Feeder.configure do |config|
+          config.authorization_adapter = EveryoneAdapter
+        end
+
+        render partial: "feeder/items/item.html.erb", locals: {
+          item: item
+        }
+      end
+
+      after do
+        Feeder.configure do |config|
+          config.authorization_adapter = Feeder::AuthorizationAdapters::Base
+        end
+      end
+
+      it "displays a link to unlike" do
+        expect(rendered).to have_selector "a", text: "Unlike"
+      end
+    end
+  end
+
+  context "unliked item" do
+    let(:message) { create :message }
+    let(:item)    { create :feeder_item, feedable: message }
+    let(:user)    { create :user }
+
+    context "for users that can like" do
+      before do
+        Feeder.configure do |config|
+          config.authorization_adapter = EveryoneAdapter
+        end
+
+        render partial: "feeder/items/item.html.erb", locals: {
+          item: item
+        }
+      end
+
+      after do
+        Feeder.configure do |config|
+          config.authorization_adapter = Feeder::AuthorizationAdapters::Base
+        end
+      end
+
+      it "displays a link to like" do
+        expect(rendered).to have_selector "a", text: "Like"
+      end
     end
   end
 end
