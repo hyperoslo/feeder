@@ -157,8 +157,8 @@ end
 
 ### Likes
 
-You can let users like items in your feed. Like with recommendations you can configure the
-conditions upn which users is allowed to recommend items by creating an authorization adapter.
+You can let users like items in your feed. As with recommendations you can configure the
+conditions upon which users is allowed to recommend items by creating an authorization adapter.
 
 You can also configure feeder to enable the use of multiple kinds of "likes" by setting the
 `like_scopes` configuration variable.
