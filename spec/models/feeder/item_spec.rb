@@ -71,5 +71,54 @@ module Feeder
         expect(subject).not_to be_blocked
       end
     end
+
+    describe "#liked_by?" do
+      subject { create :feeder_item }
+      let(:user) { create :user }
+
+      context "when it is liked" do
+        before do
+          subject.liked_by user
+        end
+
+        it "determines if the item is liked given user" do
+          expect(subject.liked_by?(user)).to be true
+        end
+
+        context "with scope" do
+          it "determines the item is liked by given" do
+            subject.liked_by user, vote_scope: "foo"
+            expect(subject.liked_by?(user, "foo")).to be true
+          end
+        end
+      end
+
+      context "when it's not liked" do
+        it "determines if the item is liked by given user" do
+          expect(subject.liked_by?(user)).to be false
+        end
+      end
+    end
+
+    describe "#liked_by?" do
+      subject { create :feeder_item }
+      let(:user) { create :user }
+
+      context "when it is liked" do
+        before do
+          subject.liked_by user
+        end
+
+        it "determines if the item is liked" do
+          expect(subject.liked?).to be true
+        end
+      end
+
+      context "when it's not liked" do
+        it "determines if the item is liked" do
+          expect(subject.liked?).to be false
+        end
+      end
+    end
   end
 end

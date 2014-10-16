@@ -39,6 +39,18 @@ module Feeder
       def unrecommend
         self.update recommended: false
       end
+
+      def liked_by?(voter, scope = nil)
+        self.find_votes_for(voter: voter, vote_scope: scope).any?
+      end
+
+      def likes scope = nil
+        self.find_votes_for(vote_scope: scope)
+      end
+
+      def liked? scope = nil
+        likes(scope).any?
+      end
     end
   end
 end
