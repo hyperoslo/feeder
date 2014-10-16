@@ -155,6 +155,20 @@ Feeder.configure do |config|
 end
 ```
 
+### Likes
+
+You can let users like items in your feed. Like with recommendations you can configure the
+conditions upn which users is allowed to recommend items by creating an authorization adapter.
+
+You can also configure feeder to enable the use of multiple kinds of "likes" by setting the
+`like_scopes` configuration variable.
+
+```ruby
+Feeder.configure do |config|
+  config.like_scopes = [:cred, :kudos]
+end
+```
+
 ## Contributing
 
 1. Fork it
