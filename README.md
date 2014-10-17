@@ -114,6 +114,27 @@ Feeder.configure do |config|
 end
 ```
 
+You have access to the controller in the scope, which enables you to do cool
+stuff like this:
+
+```ruby
+Feeder.configure do |config|
+  # A list of scopes that will be applied to the feed items in the controller.
+  config.scopes << proc { |ctrl| limit ctrl.params[:limit] }
+end
+```
+
+If your scope evaluates to `nil` it will not be applied to prevent it from
+breaking the scope chain. This enables optional paramaters by doing something
+like this:
+
+```ruby
+Feeder.configure do |config|
+  # A list of scopes that will be applied to the feed items in the controller.
+  config.scopes << proc { |ctrl| ctrl.params.has_key?(:limit) limit(ctrl.params[:limit]) : nil }
+end
+```
+
 Add this to your `spec/spec_helper.rb` if you don't want to create
 `Feeder::Item` during the tests:
 ```ruby

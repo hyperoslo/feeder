@@ -11,10 +11,6 @@ module Feeder
       @observables           = {}
       @authorization_adapter = Feeder::AuthorizationAdapters::Base
       @current_user_method   = "current_user"
-      @scopes = [
-        proc { unblocked },
-        proc { order created_at: :desc }
-      ]
     end
 
     def add_observable(observable)
