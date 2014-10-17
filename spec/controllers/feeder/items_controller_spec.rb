@@ -138,11 +138,7 @@ module Feeder
       before do
         request.env["HTTP_REFERER"] = "http://example.org"
 
-        class Feeder::ItemsController
-          def current_user
-            User.first
-          end
-        end
+        allow(controller).to receive(:current_user).and_return user
       end
 
       it "returns http success" do
@@ -212,11 +208,7 @@ module Feeder
         item.liked_by user
         request.env["HTTP_REFERER"] = "http://example.org"
 
-        class Feeder::ItemsController
-          def current_user
-            User.first
-          end
-        end
+        allow(controller).to receive(:current_user).and_return user
       end
 
       it "returns http success" do
