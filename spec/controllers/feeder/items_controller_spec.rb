@@ -39,6 +39,27 @@ module Feeder
           expect(assigns(:items).first).to eq sticky
         end
       end
+
+      context "with custom scopes" do
+        before do
+          class Feeder::ItemsController < ApplicationController
+            include ::Feeder::Concerns::Controllers::ItemsController
+            def custom_scopes
+              if params[:recommended]
+                @items = @items.where(recommended: params[:recommended])
+              end
+            end
+          end
+        end
+
+        let!(:recommended) { create :feeder_item, :recommended, :published }
+        let!(:other)  { create :feeder_item, :published }
+
+        it "returns only recommended items" do
+          get :index, recommended: true
+          expect(assigns(:items).first).to eq recommended
+        end
+      end
     end
 
     describe "POST 'recommend'" do
