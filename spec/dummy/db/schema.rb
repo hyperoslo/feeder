@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141016065532) do
+ActiveRecord::Schema.define(version: 20141017142101) do
 
   create_table "articles", force: true do |t|
     t.string   "header"
@@ -26,12 +26,26 @@ ActiveRecord::Schema.define(version: 20141016065532) do
     t.datetime "updated_at"
     t.integer  "feedable_id"
     t.string   "feedable_type"
-    t.boolean  "sticky",        default: false, null: false
-    t.boolean  "blocked",       default: false, null: false
-    t.boolean  "reported",      default: false, null: false
-    t.boolean  "recommended",   default: false, null: false
+    t.boolean  "sticky",                  default: false, null: false
+    t.boolean  "blocked",                 default: false, null: false
+    t.boolean  "reported",                default: false, null: false
+    t.boolean  "recommended",             default: false, null: false
+    t.integer  "cached_votes_total",      default: 0
+    t.integer  "cached_votes_score",      default: 0
+    t.integer  "cached_votes_up",         default: 0
+    t.integer  "cached_votes_down",       default: 0
+    t.integer  "cached_weighted_score",   default: 0
+    t.integer  "cached_weighted_total",   default: 0
+    t.float    "cached_weighted_average", default: 0.0
   end
 
+  add_index "feeder_items", ["cached_votes_down"], name: "index_feeder_items_on_cached_votes_down"
+  add_index "feeder_items", ["cached_votes_score"], name: "index_feeder_items_on_cached_votes_score"
+  add_index "feeder_items", ["cached_votes_total"], name: "index_feeder_items_on_cached_votes_total"
+  add_index "feeder_items", ["cached_votes_up"], name: "index_feeder_items_on_cached_votes_up"
+  add_index "feeder_items", ["cached_weighted_average"], name: "index_feeder_items_on_cached_weighted_average"
+  add_index "feeder_items", ["cached_weighted_score"], name: "index_feeder_items_on_cached_weighted_score"
+  add_index "feeder_items", ["cached_weighted_total"], name: "index_feeder_items_on_cached_weighted_total"
   add_index "feeder_items", ["feedable_id", "feedable_type"], name: "index_feeder_items_on_feedable_id_and_feedable_type"
 
   create_table "messages", force: true do |t|
