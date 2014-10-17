@@ -156,9 +156,9 @@ module Feeder
         end
 
         it "likes the item" do
-          post :like, id: item.id
-          expect(response).to be_redirect
-          expect(item.get_likes(voter: user).any?).to be true
+          expect do
+            post :like, id: item.id
+          end.to change(item.get_likes(voter: user), :size).by(1)
         end
 
         context "with valid scope" do
@@ -167,8 +167,9 @@ module Feeder
           end
 
           it "likes the item" do
-            post :like, id: item.id, like_scope: "foo"
-            expect(item.get_likes(voter: user, vote_scope: "foo").any?).to be true
+            expect do
+              post :like, id: item.id, like_scope: "foo"
+            end.to change(item.get_likes(voter: user, vote_scope: :foo), :size).by(1)
           end
         end
 
@@ -191,8 +192,9 @@ module Feeder
         end
 
         it "does not like the item" do
-          post :like, id: item.id
-          expect(item.get_likes(voter: user).any?).to be false
+          expect do
+            post :like, id: item.id
+          end.to change(item.get_likes(voter: user), :size).by(0)
         end
 
         it "issues an error" do
@@ -228,8 +230,9 @@ module Feeder
         end
 
         it "unlikes the item" do
-          post :unlike, id: item.id
-          expect(item.get_likes(voter: user).any?).to be false
+          expect do
+            post :unlike, id: item.id
+          end.to change(item.get_likes(voter: user), :size).by(-1)
         end
 
         it "issues a notice" do
@@ -244,8 +247,9 @@ module Feeder
         end
 
         it "does not unlike the item" do
-          post :unlike, id: item.id
-          expect(item.get_likes(voter: user).any?).to be true
+          expect do
+            post :unlike, id: item.id
+          end.to change(item.get_likes(voter: user), :size).by(0)
         end
 
         it "issues an error" do
