@@ -52,6 +52,15 @@ module Feeder
           end
         end
 
+        after do
+          class Feeder::ItemsController < ApplicationController
+            include ::Feeder::Concerns::Controllers::ItemsController
+            def custom_scopes
+              @items = @items.unblocked.order created_at: :desc
+            end
+          end
+        end
+
         let!(:recommended) { create :feeder_item, :recommended, :published }
         let!(:other)  { create :feeder_item, :published }
 
