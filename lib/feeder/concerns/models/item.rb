@@ -1,11 +1,18 @@
 require 'acts_as_votable'
+require 'kaminari/config'
+require 'kaminari/models/page_scope_methods'
+require 'kaminari/models/configuration_methods'
+require 'kaminari/models/active_record_model_extension'
 
 module Feeder
   module Concerns::Models::Item
     extend ActiveSupport::Concern
 
     included do
+      include Kaminari::ActiveRecordModelExtension
       include Feeder::Concerns::Helpers::Filter
+
+      singleton_class.send(:alias_method, :kaminari_page, :page)
 
       acts_as_votable
 
