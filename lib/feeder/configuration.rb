@@ -1,6 +1,7 @@
 module Feeder
   class Configuration
     attr_accessor :scopes
+    attr_accessor :like_scopes
     attr_accessor :authorization_adapter
     attr_accessor :current_user_method
     attr_accessor :observables
@@ -11,6 +12,7 @@ module Feeder
       @observables           = {}
       @authorization_adapter = Feeder::AuthorizationAdapters::Base
       @current_user_method   = "current_user"
+      @like_scopes           = []
     end
 
     def add_observable(observable)
