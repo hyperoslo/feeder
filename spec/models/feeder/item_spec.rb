@@ -4,6 +4,8 @@ module Feeder
   describe Item do
     it_behaves_like "a filterable"
 
+    subject { create :feeder_item }
+
     describe "::blocked" do
       let(:blocked_item)   { create :feeder_item, blocked: true }
       let(:unblocked_item) { create :feeder_item, blocked: false }
@@ -37,11 +39,47 @@ module Feeder
     end
 
     describe "#report" do
-      subject { create :feeder_item, reported: false }
+      subject { create :feeder_item }
 
-      it "ensures the item is reported" do
-        subject.report
-        expect(subject).to be_reported
+      context "when passed a reporter" do
+        it "ensures the item is reported by that person" do
+          user = User.new
+          subject.report user
+          expect(subject).to be_reported_by user
+        end
+      end
+
+      context "when not passed a reporter" do
+        it "ensures the item is reported" do
+          subject.report
+          expect(subject).to be_reported
+        end
+      end
+    end
+
+    describe "#unreport" do
+      subject { create :feeder_item, :reported }
+      let(:user) { User.new }
+
+      context "when passed a reporter" do
+        it "ensures the item is not reported by that user" do
+          create :feeder_report, item: subject, reporter: user
+
+          subject.unreport user
+          expect(subject).not_to be_reported_by user
+        end
+
+        it "stills keeps other reports by other users" do
+          subject.unreport user
+          expect(subject).to be_reported
+        end
+      end
+
+      context "when not passed a reporter" do
+        it "ensures the item is not reported" do
+          subject.unreport
+          expect(subject).not_to be_reported
+        end
       end
     end
 
@@ -51,15 +89,6 @@ module Feeder
       it "ensures the item is blocked" do
         subject.block
         expect(subject).to be_blocked
-      end
-    end
-
-    describe "#unreport" do
-      subject { create :feeder_item, reported: true }
-
-      it "ensures the item is not reported" do
-        subject.unreport
-        expect(subject).not_to be_reported
       end
     end
 
@@ -117,6 +146,44 @@ module Feeder
       context "when it's not liked" do
         it "determines if the item is liked" do
           expect(subject.liked?).to be false
+        end
+      end
+    end
+
+    describe "#reported?" do
+      context "when reported by any user or anonymously" do
+        before { subject.reports << create(:feeder_report) }
+
+        it "returns true" do
+          expect(subject).to be_reported
+        end
+      end
+
+      context "when not reported by anyone" do
+        before { subject.update reports: [] }
+
+        it "returns false" do
+          expect(subject).not_to be_reported
+        end
+      end
+    end
+
+    describe "#reported_by?" do
+      let(:user) { User.new }
+
+      context "when reported by the given user" do
+        before { subject.reports << create(:feeder_report, reporter: user) }
+
+        it "returns true" do
+          expect(subject).to be_reported_by user
+        end
+      end
+
+      context "when not reported by given user" do
+        before { subject.reports << create(:feeder_report, reporter: User.new) }
+
+        it "returns true" do
+          expect(subject).not_to be_reported_by user
         end
       end
     end
