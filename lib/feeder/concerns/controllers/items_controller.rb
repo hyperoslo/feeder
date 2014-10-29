@@ -8,7 +8,7 @@ module Feeder
 
       respond_to :html, :json
 
-      before_action :set_item, only: [:recommend, :unrecommend, :like, :unlike, :report, :unreport]
+      before_action :set_item, only: [:recommend, :unrecommend, :like, :unlike, :report]
 
       helper_method :can_recommend?
 
@@ -55,14 +55,6 @@ module Feeder
 
       def report
         @item.report get_current_user
-
-        flash[:notice] = I18n.t("feeder.views.liked")
-
-        redirect_to :back
-      end
-
-      def unreport
-        @item.unreport get_current_user
 
         flash[:notice] = I18n.t("feeder.views.liked")
 

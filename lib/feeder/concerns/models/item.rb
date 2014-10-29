@@ -35,12 +35,6 @@ module Feeder
         end
       end
 
-      def unreport(reporter = nil)
-        reps = reporter ? reports.by(reporter) : reports
-
-        reps.destroy_all
-      end
-
       def block
         update blocked: true
       end

@@ -11,7 +11,7 @@ module Feeder::Concerns::Feedable
       klass.after_save :_update_feeder_item
     end
 
-    delegate :block, :unblock, :blocked?, :report, :unreport, :reported?,
+    delegate :block, :unblock, :blocked?, :report, :reported?,
       :recommended?, to: :feeder_item
 
     def sticky

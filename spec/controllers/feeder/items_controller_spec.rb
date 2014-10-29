@@ -313,51 +313,5 @@ module Feeder
         end
       end
     end
-
-    describe "POST unreport" do
-      let(:item) { create :feeder_item }
-      let(:user) { User.new }
-
-      before do
-        Feeder.config.current_user_method = :current_user
-        request.env["HTTP_REFERER"] = "http://example.org"
-      end
-
-      it "assigns the feed item to @item" do
-        post :unreport, id: item.to_param
-        expect(assigns(:item)).to eq item
-      end
-
-      it "redirects back" do
-        post :unreport, id: item.to_param
-        expect(response).to redirect_to :back
-      end
-
-      context "when signed in" do
-        before do
-          allow(controller).to receive(:current_user).and_return user
-
-          item.reports << create(:feeder_report, reporter: user)
-          item.reports << create(:feeder_report, reporter: nil)
-        end
-
-        it "removes all reports by that user for the feed item" do
-          expect { post :unreport, id: item.to_param }.to change(item.reports, :count).by(-1)
-        end
-      end
-
-      context "when not signed in" do
-        before do
-          allow(controller).to receive(:current_user).and_return nil
-
-          item.reports << create(:feeder_report, reporter: user)
-          item.reports << create(:feeder_report, reporter: nil)
-        end
-
-        it "removes all reports for that feed item" do
-          expect { post :unreport, id: item.to_param }.to change(item.reports, :count).by(-2)
-        end
-      end
-    end
   end
 end

@@ -57,32 +57,6 @@ module Feeder
       end
     end
 
-    describe "#unreport" do
-      subject { create :feeder_item, :reported }
-      let(:user) { User.new }
-
-      context "when passed a reporter" do
-        it "ensures the item is not reported by that user" do
-          create :feeder_report, item: subject, reporter: user
-
-          subject.unreport user
-          expect(subject).not_to be_reported_by user
-        end
-
-        it "stills keeps other reports by other users" do
-          subject.unreport user
-          expect(subject).to be_reported
-        end
-      end
-
-      context "when not passed a reporter" do
-        it "ensures the item is not reported" do
-          subject.unreport
-          expect(subject).not_to be_reported
-        end
-      end
-    end
-
     describe "#block" do
       subject { create :feeder_item, blocked: false }
 
