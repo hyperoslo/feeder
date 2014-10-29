@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141028114349) do
+ActiveRecord::Schema.define(version: 20141029152101) do
 
   create_table "articles", force: true do |t|
     t.string   "header"
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 20141028114349) do
     t.integer  "item_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "handled_at"
   end
 
   add_index "feeder_reports", ["item_id"], name: "index_feeder_reports_on_item_id"
