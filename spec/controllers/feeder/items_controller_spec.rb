@@ -173,7 +173,7 @@ module Feeder
 
       it "returns http success" do
         post :like, id: item.id
-        expect(response).to be_redirect
+        expect(response).to be_successful
       end
 
       context "authorized" do
@@ -243,7 +243,7 @@ module Feeder
 
       it "returns http success" do
         post :unlike, id: item.id
-        expect(response).to be_redirect
+        expect(response).to be_successful
       end
 
       context "authorized" do

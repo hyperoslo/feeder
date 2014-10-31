@@ -8,7 +8,7 @@ module Feeder
 
       respond_to :html, :json
 
-      before_action :set_item, only: [:recommend, :unrecommend, :like, :unlike, :report]
+      before_action :set_item, only: [:show, :recommend, :unrecommend, :like, :unlike, :report]
 
       helper_method :can_recommend?
 
@@ -21,6 +21,10 @@ module Feeder
         @items = @items.per(params[:limit] || 25)
 
         respond_with @items
+      end
+
+      def show
+        respond_with @item
       end
 
       def recommend
@@ -46,11 +50,11 @@ module Feeder
       end
 
       def like
-        vote(@item, :vote_by)
+        respond_with @item if vote(@item, :vote_by)
       end
 
       def unlike
-        vote(@item, :unvote)
+        respond_with @item if vote(@item, :unvote)
       end
 
       def report
@@ -74,7 +78,7 @@ module Feeder
               item.send(method, voter: liker, vote_scope: params[:like_scope])
             else
               head :bad_request
-              return
+              return false
             end
           else
             item.send(method, voter: liker)
@@ -89,8 +93,6 @@ module Feeder
         else
           flash[:error] = I18n.t("feeder.views.unauthorized")
         end
-
-        redirect_to :back
       end
 
       def set_item

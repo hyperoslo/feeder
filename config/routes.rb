@@ -1,5 +1,6 @@
 Feeder::Engine.routes.draw do
-  resources :items, path: '/(.:format)', only: :index do
+  root to: 'items#index', path: '(.:format)', as: 'items'
+  resources :items, path: '', only: :show do
     member do
       post :report
       post :recommend
