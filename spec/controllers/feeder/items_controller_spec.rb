@@ -280,5 +280,38 @@ module Feeder
         end
       end
     end
+
+    describe "POST report" do
+      let(:item) { create :feeder_item }
+      let(:user) { User.new }
+
+      before { request.env["HTTP_REFERER"] = "http://example.org" }
+
+      it "assigns the feed item to @item" do
+        post :report, id: item.to_param
+        expect(assigns(:item)).to eq item
+      end
+
+      it "redirects back" do
+        post :report, id: item.to_param
+        expect(response).to redirect_to :back
+      end
+
+      context "when signed in" do
+        before { allow(controller).to receive(:current_user).and_return user }
+
+        it "creates a report by that user for the feed item" do
+          expect { post :report, id: item.to_param }.to change(item.reports, :count).by(1)
+        end
+      end
+
+      context "when not signed in" do
+        before { allow(controller).to receive(:current_user).and_return nil }
+
+        it "creates and anonymous report for that feed item" do
+          expect { post :report, id: item.to_param }.to change(item.reports, :count).by(1)
+        end
+      end
+    end
   end
 end

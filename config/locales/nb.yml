@@ -13,3 +13,7 @@ nb:
         published_at: Publiseringsdato
         created_at: Opprettelsesdato
         updated_at: Endringsdato
+
+  feeder:
+    views:
+      reported: Feed-elementet ble rapportert

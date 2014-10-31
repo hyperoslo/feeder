@@ -20,21 +20,23 @@ module Feeder
       scope :blocked,   -> { where blocked: true }
 
       belongs_to :feedable, polymorphic: true
+      has_many :reports
 
       def type
         feedable_type.underscore
       end
 
-      def report
-        update reported: true
+      def report(reporter = nil)
+        if reporter
+          return if reported_by?(reporter)
+          reports.create! reporter: reporter
+        else
+          reports.create!
+        end
       end
 
       def block
         update blocked: true
-      end
-
-      def unreport
-        update reported: false
       end
 
       def unblock
@@ -59,6 +61,14 @@ module Feeder
 
       def liked? scope = nil
         likes(scope).any?
+      end
+
+      def reported?
+        reports.any?
+      end
+
+      def reported_by?(reporter)
+        reports.by(reporter).any?
       end
     end
   end

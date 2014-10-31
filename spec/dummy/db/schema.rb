@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141017142101) do
+ActiveRecord::Schema.define(version: 20141029152101) do
 
   create_table "articles", force: true do |t|
     t.string   "header"
@@ -28,7 +28,6 @@ ActiveRecord::Schema.define(version: 20141017142101) do
     t.string   "feedable_type"
     t.boolean  "sticky",                  default: false, null: false
     t.boolean  "blocked",                 default: false, null: false
-    t.boolean  "reported",                default: false, null: false
     t.boolean  "recommended",             default: false, null: false
     t.integer  "cached_votes_total",      default: 0
     t.integer  "cached_votes_score",      default: 0
@@ -47,6 +46,18 @@ ActiveRecord::Schema.define(version: 20141017142101) do
   add_index "feeder_items", ["cached_weighted_score"], name: "index_feeder_items_on_cached_weighted_score"
   add_index "feeder_items", ["cached_weighted_total"], name: "index_feeder_items_on_cached_weighted_total"
   add_index "feeder_items", ["feedable_id", "feedable_type"], name: "index_feeder_items_on_feedable_id_and_feedable_type"
+
+  create_table "feeder_reports", force: true do |t|
+    t.integer  "reporter_id"
+    t.string   "reporter_type"
+    t.integer  "item_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "handled_at"
+  end
+
+  add_index "feeder_reports", ["item_id"], name: "index_feeder_reports_on_item_id"
+  add_index "feeder_reports", ["reporter_id", "reporter_type"], name: "index_feeder_reports_on_reporter_id_and_reporter_type"
 
   create_table "messages", force: true do |t|
     t.string   "header"

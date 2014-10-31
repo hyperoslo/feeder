@@ -8,7 +8,7 @@ module Feeder
 
       respond_to :html, :json
 
-      before_action :set_item, only: [:recommend, :unrecommend, :like, :unlike]
+      before_action :set_item, only: [:recommend, :unrecommend, :like, :unlike, :report]
 
       helper_method :can_recommend?
 
@@ -53,7 +53,19 @@ module Feeder
         vote(@item, :unvote)
       end
 
+      def report
+        @item.report get_current_user
+
+        flash[:notice] = I18n.t("feeder.views.liked")
+
+        redirect_to :back
+      end
+
       protected
+
+      def get_current_user
+        @current_user ||= send Feeder.config.current_user_method
+      end
 
       def vote(item, method)
         if can_like? item

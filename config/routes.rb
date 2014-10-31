@@ -1,6 +1,7 @@
 Feeder::Engine.routes.draw do
   resources :items, path: '/(.:format)', only: :index do
     member do
+      post :report
       post :recommend
       post :unrecommend
       post :like
