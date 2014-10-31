@@ -46,11 +46,11 @@ module Feeder
       end
 
       def like
-        vote(@item, :vote_by)
+        respond_with @item if vote(@item, :vote_by)
       end
 
       def unlike
-        vote(@item, :unvote)
+        respond_with @item if vote(@item, :unvote)
       end
 
       def report
@@ -74,7 +74,7 @@ module Feeder
               item.send(method, voter: liker, vote_scope: params[:like_scope])
             else
               head :bad_request
-              return
+              return false
             end
           else
             item.send(method, voter: liker)
@@ -89,8 +89,6 @@ module Feeder
         else
           flash[:error] = I18n.t("feeder.views.unauthorized")
         end
-
-        redirect_to :back
       end
 
       def set_item
