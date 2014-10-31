@@ -8,7 +8,7 @@ module Feeder
 
       respond_to :html, :json
 
-      before_action :set_item, only: [:recommend, :unrecommend, :like, :unlike, :report]
+      before_action :set_item, only: [:show, :recommend, :unrecommend, :like, :unlike, :report]
 
       helper_method :can_recommend?
 
@@ -21,6 +21,10 @@ module Feeder
         @items = @items.per(params[:limit] || 25)
 
         respond_with @items
+      end
+
+      def show
+        respond_with @item
       end
 
       def recommend

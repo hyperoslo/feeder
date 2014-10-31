@@ -1,0 +1,55 @@
+<div class="feed-item <%= @item.type.parameterize %><%= " sticky" if @item.sticky? %>">
+  <nav class="actions">
+    <% if can_recommend? @item %>
+      <div class="recommend">
+        <% if @item.recommended? %>
+          <%= link_to t("feeder.views.unrecommend"), feeder.unrecommend_item_path(id: @item.id), method: :post %>
+        <% else %>
+          <%= link_to t("feeder.views.recommend"), feeder.recommend_item_path(id: @item.id), method: :post %>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if can_like? @item %>
+      <div class="like">
+        <% if @item.liked_by? liker %>
+          <%= link_to t("feeder.views.unlike"), feeder.unlike_item_path(id: @item.id), method: :post %>
+        <% else %>
+          <%= link_to t("feeder.views.like"), feeder.like_item_path(id: @item.id), method: :post %>
+        <% end %>
+
+        <% like_scopes.each do |scope| %>
+          <div class="like <%= scope.to_s %>">
+            <% if @item.liked_by?(liker, scope) %>
+              <%= link_to t("feeder.views.like.scopes.un#{scope.to_s}"), feeder.unlike_item_path(id: @item.id, like_scope: scope), method: :post %>
+            <% else %>
+              <%= link_to t("feeder.views.like.scopes.#{scope.to_s}"), feeder.like_item_path(id: @item.id, like_scope: scope), method: :post %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </nav>
+
+  <% if @item.recommended? %>
+    <div class="recommended">
+      Recommended
+    </div>
+  <% end %>
+
+  <% if @item.liked? %>
+    <div class="likes">
+      <%= @item.likes.size %>
+    </div>
+  <% end %>
+
+  <% like_scopes.each do |scope| %>
+    <% if @item.liked? scope %>
+      <div class="likes <%= scope.to_s %>">
+        <%= @item.likes(scope).size %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <%= render "feeder/types/#{@item.type}", feedable: @item.feedable %>
+</div>
