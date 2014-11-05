@@ -16,6 +16,7 @@ module Feeder
 
       acts_as_votable
 
+      scope :published, -> { where("published_at <= ?", Time.zone.now) }
       scope :unblocked, -> { where blocked: false }
       scope :blocked,   -> { where blocked: true }
 

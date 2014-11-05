@@ -8,12 +8,13 @@ module Feeder
 
       respond_to :html, :json
 
-      before_action :set_item, only: [:show, :recommend, :unrecommend, :like, :unlike, :report]
+      before_action :set_item, only: [:show, :recommend, :unrecommend, :like,
+                                      :unlike, :report]
 
       helper_method :can_recommend?
 
       def index
-        @items = Item.order(sticky: :desc)
+        @items = Item.published.order(sticky: :desc)
 
         custom_scopes
 
