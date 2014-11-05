@@ -14,14 +14,15 @@ module Feeder
         expect(response).to be_successful
       end
 
-      context "with unpublished items" do
+      context "with non published items" do
         before do
           create :feeder_item, :not_published
           create :feeder_item, :not_yet_published
+          create :feeder_item, :unpublished
         end
 
         it "only returns the published items" do
-          get :index, limit: items.length + 2
+          get :index, limit: items.length + 3
           expect(assigns(:items).count).to eq items.length
         end
       end

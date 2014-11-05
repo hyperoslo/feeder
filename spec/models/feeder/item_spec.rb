@@ -24,6 +24,20 @@ module Feeder
       end
     end
 
+    describe "::published" do
+      let(:published_item) { create :feeder_item, :published }
+
+      before do
+        create :feeder_item, :not_published
+        create :feeder_item, :not_yet_published
+        create :feeder_item, :unpublished
+      end
+
+      it "returns published items" do
+        expect(described_class.published).to eq [published_item]
+      end
+    end
+
     describe "#type" do
       it "returns the lowercase version of the feedable's type, separating words with an underscore" do
         subject.stub(:feedable_type).and_return "SomeFeedable"
