@@ -54,7 +54,16 @@ module Feeder::Concerns::Feedable
     create_feeder_item! do |item|
       item.feedable     = self
       item.created_at   = created_at
-      item.published_at = Time.zone.now
+
+      if respond_to? :published_at
+        item.published_at = published_at
+      else
+        item.published_at = Time.zone.now
+      end
+
+      if respond_to? :unpublished_at
+        item.unpublished_at = unpublished_at
+      end
 
       if respond_to? :sticky
         item.sticky = sticky
@@ -63,8 +72,20 @@ module Feeder::Concerns::Feedable
   end
 
   def _update_feeder_item
-    if feeder_item && respond_to?(:sticky)
-      feeder_item.update!(sticky: sticky)
+    if feeder_item
+      if respond_to? :sticky
+        feeder_item.sticky = sticky
+      end
+
+      if respond_to? :published_at
+        feeder_item.published_at = published_at
+      end
+
+      if respond_to? :unpublished_at
+        feeder_item.unpublished_at = unpublished_at
+      end
+
+      feeder_item.save!
     end
   end
 end
