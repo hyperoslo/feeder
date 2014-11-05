@@ -6,12 +6,25 @@ module Feeder
 
     describe "GET 'index'" do
       let!(:items) do
-        create_list :feeder_item, 50
+        create_list :feeder_item, 50, :published
       end
 
       it "returns http success" do
         get :index
         expect(response).to be_successful
+      end
+
+      context "with non published items" do
+        before do
+          create :feeder_item, :not_published
+          create :feeder_item, :not_yet_published
+          create :feeder_item, :unpublished
+        end
+
+        it "only returns the published items" do
+          get :index, limit: items.length + 3
+          expect(assigns(:items).count).to eq items.length
+        end
       end
 
       context "with a limit" do
@@ -22,7 +35,7 @@ module Feeder
       end
 
       context "with a page" do
-        let!(:very_last) { create :feeder_item }
+        let!(:very_last) { create :feeder_item, :published }
 
         it "paginates items" do
           get :index, page: 2, limit: 1
@@ -56,7 +69,7 @@ module Feeder
           class Feeder::ItemsController < ApplicationController
             include ::Feeder::Concerns::Controllers::ItemsController
             def custom_scopes
-              @items = @items.unblocked.order created_at: :desc
+              @items = @items.published.unblocked.order created_at: :desc
             end
           end
         end
