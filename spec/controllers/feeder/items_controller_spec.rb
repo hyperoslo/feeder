@@ -69,7 +69,7 @@ module Feeder
           class Feeder::ItemsController < ApplicationController
             include ::Feeder::Concerns::Controllers::ItemsController
             def custom_scopes
-              @items = @items.unblocked.order created_at: :desc
+              @items = @items.published.unblocked.order created_at: :desc
             end
           end
         end

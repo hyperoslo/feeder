@@ -14,7 +14,7 @@ module Feeder
       helper_method :can_recommend?
 
       def index
-        @items = Item.published.order(sticky: :desc)
+        @items = Item.order(sticky: :desc)
 
         custom_scopes
 
@@ -101,7 +101,7 @@ module Feeder
       end
 
       def custom_scopes
-        @items = @items.unblocked.order created_at: :desc
+        @items = @items.published.unblocked.order created_at: :desc
       end
     end
   end
