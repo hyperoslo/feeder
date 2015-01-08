@@ -21,6 +21,7 @@ DESC
   s.test_files = Dir["spec/**/*"]
 
   s.add_dependency "rails", "~> 4.0"
+  s.add_dependency "responders", "~> 2.0"
   s.add_dependency "kaminari"
   s.add_dependency "acts_as_votable", '~> 0.10.0'
 

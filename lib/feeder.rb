@@ -16,5 +16,4 @@ module Feeder
       yield config if block_given?
     end
   end
-
 end

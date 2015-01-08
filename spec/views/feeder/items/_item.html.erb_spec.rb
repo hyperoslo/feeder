@@ -10,6 +10,18 @@ describe "feeder/items/_item.html.erb" do
     }
   end
 
+  around do |example|
+    Feeder.configure do |config|
+      config.current_user_method = "current_user"
+    end
+
+    example.run
+
+    Feeder.configure do |config|
+      config.current_user_method = nil
+    end
+  end
+
   context "recommended item" do
     let(:message) { create :message }
     let(:item)    { create :feeder_item, feedable: message, recommended: true }

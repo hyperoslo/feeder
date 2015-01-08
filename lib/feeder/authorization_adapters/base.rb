@@ -12,7 +12,7 @@ module Feeder
 
       # Determine whether the user is authorized.
       #
-      # action  - A symbol describing the action. Valid actions are :recommend.
+      # action  - A symbol describing the action. Valid actions are :recommend and :like.
       # subject - Any model representing a model to perform the action on.
       #
       # Returns a Boolean.

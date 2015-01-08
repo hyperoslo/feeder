@@ -31,11 +31,12 @@ Run the migrations:
 
     rake db:migrate
 
-Add the helper in your controllers:
+Include the helpers in your controllers:
 
     # app/controllers/application_controller.rb
     class ApplicationController < ActionController::Base
       helper Feeder::AuthorizationHelper
+      helper Feeder::LikeHelper
     end
 
 ## Usage

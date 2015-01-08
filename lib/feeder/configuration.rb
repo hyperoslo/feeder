@@ -11,7 +11,7 @@ module Feeder
       @test_mode             = false
       @observables           = {}
       @authorization_adapter = Feeder::AuthorizationAdapters::Base
-      @current_user_method   = "current_user"
+      @current_user_method   = nil
       @like_scopes           = []
     end
 
