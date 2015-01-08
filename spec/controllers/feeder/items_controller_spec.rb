@@ -4,6 +4,18 @@ module Feeder
   describe ItemsController do
     routes { Feeder::Engine.routes }
 
+    around do |example|
+      Feeder.configure do |config|
+        config.current_user_method = "current_user"
+      end
+
+      example.run
+
+      Feeder.configure do |config|
+        config.current_user_method = nil
+      end
+    end
+
     describe "GET 'index'" do
       let!(:items) do
         create_list :feeder_item, 50, :published
