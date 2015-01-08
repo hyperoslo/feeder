@@ -1,1 +1,1 @@
-article = Article.create! header: "Hello", body: "I'm an article"
+message = Message.create! header: "Hello", body: "I'm a message"
