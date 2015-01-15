@@ -73,6 +73,7 @@ module Feeder::Concerns::Feedable
 
   def _update_feeder_item
     if feeder_item
+      feeder_item.touch
       if respond_to? :sticky
         feeder_item.sticky = sticky
       end
