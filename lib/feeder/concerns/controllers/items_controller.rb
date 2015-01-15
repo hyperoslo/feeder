@@ -6,8 +6,6 @@ module Feeder
       include AuthorizationHelper
       include LikeHelper
 
-      respond_to :html, :json
-
       before_action :set_item, only: [:show, :recommend, :unrecommend, :like,
                                       :unlike, :report]
 
@@ -21,11 +19,17 @@ module Feeder
         @items = @items.kaminari_page(params[:page] || 1)
         @items = @items.per(params[:limit] || 25)
 
-        respond_with @items
+        respond_to do |format|
+          format.html
+          format.json
+        end
       end
 
       def show
-        respond_with @item
+        respond_to do |format|
+          format.html
+          format.json
+        end
       end
 
       def recommend
@@ -51,11 +55,21 @@ module Feeder
       end
 
       def like
-        respond_with @item if vote(@item, :vote_by)
+        if vote(@item, :vote_by)
+          respond_to do |format|
+            format.html
+            format.json
+          end
+        end
       end
 
       def unlike
-        respond_with @item if vote(@item, :unvote)
+        if vote(@item, :unvote)
+          respond_to do |format|
+            format.html
+            format.json
+          end
+        end
       end
 
       def report
